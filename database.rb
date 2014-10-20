@@ -1,4 +1,4 @@
-# Read and update the CSV database of benchs
+# Read the CSV database of benchmarks
 require 'csv'
 require 'fileutils'
 
@@ -25,13 +25,6 @@ class Database
       [Time.at(date.to_i), duration.to_i, status]
     end
     rows.sort {|x, y| - (x[0] <=> y[0])}
-  end
-
-  def add_bench(name, version, duration, status)
-    FileUtils.mkdir_p("#{@folder}/#{name}")
-    CSV.open(file_name(name, version), "a") do |csv|
-      csv << [Time.now.to_i, duration, status]
-    end
   end
 
 private
