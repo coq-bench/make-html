@@ -1,3 +1,6 @@
+database/
+html/
+
 *.gem
 *.rbc
 /.config
