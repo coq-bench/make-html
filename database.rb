@@ -1,4 +1,4 @@
-# Read the CSV database of benchmarks
+# Read the CSV database of benchmarks.
 require 'csv'
 require 'fileutils'
 
@@ -24,18 +24,14 @@ class Database
     end
   end
 
-  # def packages
-  #   (Dir.glob("#{@folder}/*").map do |name|
-  #     if File.directory?(name) then
-  #       [File.basename(name),
-  #         (Dir.glob("#{name}/*").map do |path|
-  #           File.basename(path, ".csv")
-  #         end).sort]
-  #     else
-  #       nil
-  #     end
-  #   end).find_all {|x| ! x.nil?}.sort {|x, y| x[0] <=> y[0]}
-  # end
+  def packages(architecture, coq_version, repository)
+    (Dir.glob("#{@folder}/#{architecture}/#{coq_version}/#{repository}/*").map do |name|
+      [File.basename(name),
+        (Dir.glob("#{name}/*").map do |path|
+          File.basename(path, ".csv")
+        end).sort]
+    end).sort {|x, y| x[0] <=> y[0]}
+  end
 
   # def read_history(name, version)
   #   rows = CSV.read(file_name(name, version)).map do |date, duration, status|
