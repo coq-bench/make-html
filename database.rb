@@ -9,14 +9,19 @@ class Database
 
   def architectures
     Dir.glob("#{@folder}/*").map do |name|
+      # We allow standard files at the root of the database (LICENSE, ...).
       if File.directory?(name) then
         File.basename(name)
-        # os, machine, ocaml, opam = name.split("-")
-        # { os: os, machine: machine, ocaml: ocaml, opam: opam }
       else
         nil
       end
     end.find_all {|x| ! x.nil?}.sort {|x, y| x[0] <=> y[0]}
+  end
+
+  def coq_versions(architecture)
+    Dir.glob("#{@folder}/#{architecture}/*").map do |name|
+      File.basename(name)
+    end
   end
 
   # def packages

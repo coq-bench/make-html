@@ -21,6 +21,8 @@ File.open("html/index.html", "w") do |file|
 end
 puts "html/index.html"
 
+p database.coq_versions("Linux-x86_64-4.01.0-1.1.1")
+
 exit(0)
 
 class Numeric

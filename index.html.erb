@@ -44,6 +44,9 @@
                   <td><%= h(machine) %></td>
                   <td><%= h(ocaml) %></td>
                   <td><%= h(opam) %></td>
+                  <% for coq_version in database.coq_versions(architecture) %>
+                <td><a href="<%= "#{u(architecture)}/#{u(coq_version)}/" %>"><%= h(coq_version) %></a></td>
+                  <% end %>
                 <% end %>
               </tbody>
             </table>
