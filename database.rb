@@ -33,15 +33,11 @@ class Database
     end).sort {|x, y| x[0] <=> y[0]}
   end
 
-  # def read_history(name, version)
-  #   rows = CSV.read(file_name(name, version)).map do |date, duration, status|
-  #     [Time.at(date.to_i), duration.to_i, status]
-  #   end
-  #   rows.sort {|x, y| - (x[0] <=> y[0])}
-  # end
-
-private
-  def file_name(folder, repository, architecture, coq, version)
-    "#{@folder}/#{@repository}/#{@architecture}/#{@coq}/#{name}/#{version}.csv"
+  def read_history(architecture, coq_version, repository, name, version)
+    file_name = "#{@folder}/#{architecture}/#{coq_version}/#{repository}/#{name}/#{version}.csv"
+    rows = CSV.read(file_name).map do |row|
+      [Time.at(row[0].to_i)] + row[1..-1]
+    end
+    rows.sort {|x, y| - (x[0] <=> y[0])}
   end
 end

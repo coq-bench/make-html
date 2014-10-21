@@ -37,6 +37,23 @@
                 <% for name, versions in database.packages(architecture, coq_version, repository) %>
                 <tr>
                   <td><%= h(name) %></td>
+                  <% for version in versions %>
+                    <% bench = database.read_history(architecture, coq_version, repository, name, version)[0] %>
+                    <% 
+                      raise "csv file empty for #{architecture}, #{coq_version}, #{repository}, #{name}, #{version}" if bench.nil?
+                      case bench[1]
+                      when "Success"
+                        css_class = "success"
+                      when "NotCompatible"
+                        css_class = "info"
+                      when "DepsError"
+                        css_class = "warning"
+                      when "Error"
+                        css_class = "danger"
+                      end
+                    %>
+                  <td class="<%= css_class %>"><a href="<%= "#{u(architecture)}/#{u(coq_version)}/#{u(repository)}/#{u(name)}/#{u(version)}.html" %>"><%= h(version) %></a></td>
+                  <% end %>
                 </tr>
                 <% end %>
               </tbody>
