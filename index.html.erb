@@ -20,44 +20,34 @@
       <div class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"> </span>
-              <span class="icon-bar"> </span>
-              <span class="icon-bar"> </span>
-            </button>
             <a class="navbar-brand" href="">Coq bench</a>
-          </div>
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href=".">Stable</a></li>
-              <li><a href="testing/">Testing</a></li>
-              <li><a href="unstable/">Unstable</a></li>
-            </ul>
           </div>
         </div>
       </div>
       <div class="article">
         <div class="row">
-          <div class="col-md-1"></div>
-          <div class="col-md-10">
+          <div class="col-md-12">
             <h1>Coq bench</h1>
             <table class="table table-striped text-center">
-              <tbody>
-                <% for name, versions in database.packages %>
+              <thead>
                 <tr>
-                  <td><%= h(name) %></td>
-                  <% for version in versions %>
-                    <% bench = database.read_history(name, version)[0] %>
-                    <% css_class = bench.nil? ? "warning" : (bench[2] == "OK" ? "success" : "danger") %>
-                  <td class="<%= css_class %>"><a href="<%= "history/#{u(name)}/#{u(version)}.html" %>"><%= h(version) %></a></td>
-                  <% end %>
+                  <td>OS</td>
+                  <td>Machine</td>
+                  <td>OCaml</td>
+                  <td>Opam</td>
                 </tr>
+              </thead>
+              <tbody>
+                <% for architecture in database.architectures %>
+                  <% os, machine, ocaml, opam = architecture.split("-") %>
+                  <td><%= h(os) %></td>
+                  <td><%= h(machine) %></td>
+                  <td><%= h(ocaml) %></td>
+                  <td><%= h(opam) %></td>
                 <% end %>
               </tbody>
             </table>
           </div>
-          <div class="col-md-1"></div>
         </div>
       </div>
       <hr/>

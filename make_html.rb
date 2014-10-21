@@ -10,6 +10,8 @@ FileUtils.cp(["bootstrap.min.css", "bootstrap.min.js"], "html/")
 
 # Prepare ERB
 include(ERB::Util)
+
+# Prepare the database
 database = Database.new("database")
 
 # Generate the index
@@ -18,6 +20,8 @@ File.open("html/index.html", "w") do |file|
   file << renderer.result().gsub(/\n\s*\n/, "\n")
 end
 puts "html/index.html"
+
+exit(0)
 
 class Numeric
   # Pretty-print a duration in seconds
