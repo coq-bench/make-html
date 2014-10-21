@@ -45,7 +45,8 @@ private
   def compare_versions(x, y)
     if x == y then
       0
-    elsif system("dpkg", "--compare-versions", x, "lt", y)
+    # We use `dpkg` to compare two versions numbers according to the OPAM policy.
+    elsif system("dpkg --compare-versions #{x} lt #{y} 2>/dev/null")
       -1
     else
       +1
