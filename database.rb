@@ -21,7 +21,7 @@ class Database
   def coq_versions(architecture)
     Dir.glob("#{@folder}/#{architecture}/*").map do |name|
       File.basename(name)
-    end
+    end.sort {|x, y| compare_versions(x, y)}
   end
 
   def packages(architecture, coq_version, repository)
@@ -29,7 +29,7 @@ class Database
       [File.basename(name),
         (Dir.glob("#{name}/*").map do |path|
           File.basename(path, ".csv")
-        end).sort]
+        end).sort {|x, y| compare_versions(x, y)}]
     end).sort {|x, y| x[0] <=> y[0]}
   end
 
@@ -39,5 +39,16 @@ class Database
       [Time.at(row[0].to_i)] + row[1..-1]
     end
     rows.sort {|x, y| - (x[0] <=> y[0])}
+  end
+
+private
+  def compare_versions(x, y)
+    if x == y then
+      0
+    elsif system("dpkg", "--compare-versions", x, "lt", y)
+      -1
+    else
+      +1
+    end
   end
 end
