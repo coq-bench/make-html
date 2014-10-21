@@ -21,6 +21,21 @@ File.open("html/index.html", "w") do |file|
 end
 puts "html/index.html"
 
+def css_class_of_bench(bench)
+  case bench[1]
+  when "Success"
+    css_class = "success"
+  when "NotCompatible"
+    css_class = "info"
+  when "DepsError"
+    css_class = "warning"
+  when "Error"
+    css_class = "danger"
+  else
+    raise "unknown status #{bench[1]}"
+  end
+end
+
 # Generate the tables of results.
 renderer = ERB.new(File.read("table.html.erb", :encoding => "UTF-8"))
 for architecture in database.architectures do
@@ -34,8 +49,6 @@ for architecture in database.architectures do
     puts file_name
   end
 end
-
-exit(0)
 
 class Numeric
   # Pretty-print a duration in seconds.
@@ -57,15 +70,22 @@ class Numeric
   end
 end
 
-# Generate the history.
-for name, versions in database.packages do
-  FileUtils.mkdir_p("html/history/#{name}")
-  for version in versions do
-    renderer = ERB.new(File.read("history.html.erb", :encoding => "UTF-8"))
-    file_name = "html/history/#{name}/#{version}.html"
-    File.open(file_name, "w") do |file|
-      file << renderer.result().gsub(/\n\s*\n/, "\n")
+# Generate the history for each package.
+for architecture in database.architectures do
+  for coq_version in database.coq_versions(architecture) do
+    for repository in [:stable, :testing, :unstable] do
+      for name, versions in database.packages(architecture, coq_version, repository) do
+        folder_name = "html/#{architecture}/#{coq_version}/#{repository}/#{name}"
+        FileUtils.mkdir_p(folder_name)
+        for version in versions do
+          renderer = ERB.new(File.read("package.html.erb", :encoding => "UTF-8"))
+          file_name = "#{folder_name}/#{version}.html"
+          File.open(file_name, "w") do |file|
+            file << renderer.result().gsub(/\n\s*\n/, "\n")
+          end
+          puts file_name
+        end
+      end
     end
-    puts file_name
   end
 end

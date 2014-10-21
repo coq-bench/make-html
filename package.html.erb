@@ -6,7 +6,7 @@
     <title>Coq bench</title>
 
     <!-- Bootstrap -->
-    <link href="../../bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -20,42 +20,32 @@
       <div class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="../..">Coq bench</a>
+            <a class="navbar-brand" href="../../../..">Coq bench</a>
           </div>
         </div>
       </div>
       <div class="article">
         <div class="row">
           <div class="col-md-12">
-            <h1><%= h(coq_version) %></h1>
-            <% os, machine, ocaml, opam = architecture.split("-") %>
-            <em><%= h("#{os}, #{machine}, OCaml #{ocaml}, Opam #{opam}") %></em>
-            <% for repository in [:stable, :testing, :unstable] %>
-            <h2><%= h(repository.to_s.capitalize) %> repository</h2>
+            <h1><%= h(name) %> <small><%= h(version) %></small></h1>
             <table class="table table-striped text-center">
-              <tbody>
-                <% for name, versions in database.packages(architecture, coq_version, repository) %>
+              <thead>
                 <tr>
-                  <td><%= h(name) %></td>
-                  <% for version in versions %>
-                    <%
-                      bench = database.read_history(architecture, coq_version, repository, name, version)[0]
-                      raise "csv file empty for #{architecture}, #{coq_version}, #{repository}, #{name}, #{version}" if bench.nil?
-                    %>
-                  <td class="<%= css_class_of_bench(bench) %>"><a href="<%= "#{u(repository)}/#{u(name)}/#{u(version)}.html" %>"><%= h(version) %></a></td>
-                  <% end %>
+                  <td>Date</td>
+                  <td>Time</td>
+                  <td>Status</td>
+                </tr>
+              </thead>
+              <tbody>
+                <% for bench in database.read_history(architecture, coq_version, repository, name, version) do %>
+                <tr>
+                  <td><%= h(bench[0].strftime("%Y-%m-%d")) %></td>
+                  <td><%= h(bench[0].strftime("%T")) %></td>
+                  <td class="<%= css_class_of_bench(bench) %>"><%= h(bench[1]) %></td>
                 </tr>
                 <% end %>
               </tbody>
             </table>
-            <% end %>
-            <ul class="list-inline">
-              <li>Colors:</li>
-              <li class="bg-success">OK</li>
-              <li class="bg-info">Not compatible</li>
-              <li class="bg-warning">Error in dependencies</li>
-              <li class="bg-danger">Error</li>
-            </ul>
           </div>
         </div>
       </div>
@@ -70,6 +60,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../../bootstrap.min.js"></script>
+    <script src="../../../../bootstrap.min.js"></script>
   </body>
 </html>
