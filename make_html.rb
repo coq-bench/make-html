@@ -24,13 +24,13 @@ puts "html/index.html"
 def css_class_of_bench(bench)
   case bench[1]
   when "Success"
-    css_class = "success"
+    "success"
   when "NotCompatible"
-    css_class = "info"
+    "info"
   when "DepsError"
-    css_class = "warning"
+    "warning"
   when "Error"
-    css_class = "danger"
+    "danger"
   else
     raise "unknown status #{bench[1]}"
   end

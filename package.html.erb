@@ -38,10 +38,25 @@
               </thead>
               <tbody>
                 <% for bench in database.read_history(architecture, coq_version, repository, name, version) do %>
+                <%
+                  status =
+                    case bench[1]
+                    when "Success"
+                      bench[2].to_i.duration
+                    when "NotCompatible"
+                      "Not compatible"
+                    when "DepsError"
+                      "Dependency error"
+                    when "Error"
+                      "Error"
+                    else
+                      raise "unknown status #{bench[1]}"
+                    end
+                %>
                 <tr>
                   <td><%= h(bench[0].strftime("%Y-%m-%d")) %></td>
                   <td><%= h(bench[0].strftime("%T")) %></td>
-                  <td class="<%= css_class_of_bench(bench) %>"><%= h(bench[1]) %></td>
+                  <td class="<%= css_class_of_bench(bench) %>"><%= h(status) %></td>
                 </tr>
                 <% end %>
               </tbody>
