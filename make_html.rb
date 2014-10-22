@@ -6,7 +6,7 @@ require_relative 'database'
 FileUtils.mkdir_p("html")
 
 # Copy the CSS and JavaScript.
-FileUtils.cp(["bootstrap.min.css", "bootstrap.min.js"], "html/")
+FileUtils.cp(["bootstrap.min.css", "bootstrap.min.js", "favicon.png"], "html/")
 
 # Prepare ERB.
 include(ERB::Util)
