@@ -29,6 +29,7 @@
         <div class="row">
           <div class="col-md-12">
             <h1>Coq bench</h1>
+            <p>In this table are the number of Coq versions tested for each configuration.</p>
             <table class="table table-striped text-center">
               <thead>
                 <tr>
@@ -49,9 +50,9 @@
                   <td><%= h(machine) %></td>
                   <td><%= h(ocaml) %></td>
                   <td><%= h(opam) %></td>
-                  <td><a href="<%= "#{u(architecture)}/stable/" %>">results</a></td>
-                  <td><a href="<%= "#{u(architecture)}/testing/" %>">results</a></td>
-                  <td><a href="<%= "#{u(architecture)}/unstable/" %>">results</a></td>
+                  <% for repository in ["stable", "testing", "unstable"] %>
+                  <td><a href="<%= "#{u(architecture)}/#{repository}/" %>"><%= h(database.coq_versions(architecture, repository).size) %></a></td>
+                  <% end %>
                 </tr>
                 <% end %>
               </tbody>

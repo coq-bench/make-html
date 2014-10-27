@@ -1,6 +1,7 @@
 # Read the CSV database of benchmarks.
 require 'csv'
 require 'fileutils'
+require 'time'
 
 class Database
   def initialize(folder)
@@ -24,22 +25,28 @@ class Database
     end.sort {|x, y| compare_versions(x, y)}
   end
 
-  def packages(architecture, coq_version, repository)
-    (Dir.glob("#{@folder}/#{architecture}/#{coq_version}/#{repository}/*").map do |name|
-      [File.basename(name),
-        (Dir.glob("#{name}/*").map do |path|
-          File.basename(path, ".csv")
-        end).sort {|x, y| compare_versions(x, y)}]
-    end).sort {|x, y| x[0] <=> y[0]}
-  end
+  # def times(architecture, repository, coq_version)
+  #   Dir.glob("#{@folder}/#{architecture}/#{repository}/#{coq_version}/*.csv").map do |name|
+  #     Time.strptime(File.basename(path, ".csv"), "%F_%T")
+  #   end.sort
+  # end
 
-  def read_history(architecture, coq_version, repository, name, version)
-    file_name = "#{@folder}/#{architecture}/#{coq_version}/#{repository}/#{name}/#{version}.csv"
-    rows = CSV.read(file_name).map do |row|
-      [Time.at(row[0].to_i)] + row[1..-1]
-    end
-    rows.sort {|x, y| - (x[0] <=> y[0])}
-  end
+  # def packages(architecture, repository, coq_version)
+  #   (Dir.glob("#{@folder}/#{architecture}/#{repository}/#{coq_version}/*").map do |name|
+  #     [File.basename(name),
+  #       (Dir.glob("#{name}/*").map do |path|
+  #         File.basename(path, ".csv")
+  #       end).sort {|x, y| compare_versions(x, y)}]
+  #   end).sort {|x, y| x[0] <=> y[0]}
+  # end
+
+  # def read_history(architecture, coq_version, repository, name, version)
+  #   file_name = "#{@folder}/#{architecture}/#{coq_version}/#{repository}/#{name}/#{version}.csv"
+  #   rows = CSV.read(file_name).map do |row|
+  #     [Time.at(row[0].to_i)] + row[1..-1]
+  #   end
+  #   rows.sort {|x, y| - (x[0] <=> y[0])}
+  # end
 
 private
   def compare_versions(x, y)
