@@ -36,6 +36,9 @@
                   <td>Machine</td>
                   <td>OCaml</td>
                   <td>Opam</td>
+                  <td>Stable</td>
+                  <td>Testing</td>
+                  <td>Unstable</td>
                 </tr>
               </thead>
               <tbody>
@@ -46,9 +49,9 @@
                   <td><%= h(machine) %></td>
                   <td><%= h(ocaml) %></td>
                   <td><%= h(opam) %></td>
-                  <% for coq_version in database.coq_versions(architecture) %>
-                  <td><a href="<%= "#{u(architecture)}/#{u(coq_version)}/" %>"><%= h(coq_version) %></a></td>
-                  <% end %>
+                  <td><a href="<%= "#{u(architecture)}/stable/" %>">results</a></td>
+                  <td><a href="<%= "#{u(architecture)}/testing/" %>">results</a></td>
+                  <td><a href="<%= "#{u(architecture)}/unstable/" %>">results</a></td>
                 </tr>
                 <% end %>
               </tbody>

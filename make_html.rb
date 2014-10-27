@@ -21,6 +21,8 @@ File.open("html/index.html", "w") do |file|
 end
 puts "html/index.html"
 
+exit
+
 def css_class_of_bench(bench)
   case bench[1]
   when "Success"

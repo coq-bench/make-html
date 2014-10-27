@@ -18,8 +18,8 @@ class Database
     end.find_all {|x| ! x.nil?}.sort {|x, y| x[0] <=> y[0]}
   end
 
-  def coq_versions(architecture)
-    Dir.glob("#{@folder}/#{architecture}/*").map do |name|
+  def coq_versions(architecture, repository)
+    Dir.glob("#{@folder}/#{architecture}/#{repository}*").map do |name|
       File.basename(name)
     end.sort {|x, y| compare_versions(x, y)}
   end
