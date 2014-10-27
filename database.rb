@@ -2,8 +2,13 @@
 require 'csv'
 require 'fileutils'
 require 'time'
+require_relative 'result'
 
 class Database
+  def Database.repositories
+    ["stable", "testing", "unstable"]
+  end
+
   def initialize(folder)
     @folder = folder
   end
@@ -20,16 +25,23 @@ class Database
   end
 
   def coq_versions(architecture, repository)
-    Dir.glob("#{@folder}/#{architecture}/#{repository}*").map do |name|
+    Dir.glob("#{@folder}/#{architecture}/#{repository}/*").map do |name|
       File.basename(name)
     end.sort {|x, y| compare_versions(x, y)}
   end
 
-  # def times(architecture, repository, coq_version)
-  #   Dir.glob("#{@folder}/#{architecture}/#{repository}/#{coq_version}/*.csv").map do |name|
-  #     Time.strptime(File.basename(path, ".csv"), "%F_%T")
-  #   end.sort
-  # end
+  def times(architecture, repository, coq_version)
+    Dir.glob("#{@folder}/#{architecture}/#{repository}/#{coq_version}/*.csv").map do |name|
+      Time.strptime(File.basename(name, ".csv"), "%F_%T")
+    end.sort.reverse
+  end
+
+  def packages(architecture, repository, coq_version, time)
+    file_name = "#{@folder}/#{architecture}/#{repository}/#{coq_version}/#{time.strftime("%F_%T")}.csv"
+    CSV.read(file_name).map do |row|
+      [row[0], row[1], Result.new(row[2..-1])]
+    end.sort
+  end
 
   # def packages(architecture, repository, coq_version)
   #   (Dir.glob("#{@folder}/#{architecture}/#{repository}/#{coq_version}/*").map do |name|
