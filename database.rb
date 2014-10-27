@@ -43,6 +43,14 @@ class Database
     end.sort
   end
 
+  def repository_packages(architecture, repository)
+    coq_versions(architecture, repository).map do |coq_version|
+      time = times(architecture, repository, coq_version)[0]
+      packages(architecture, repository, coq_version, time)
+    end
+  end
+
+
   # def packages(architecture, repository, coq_version)
   #   (Dir.glob("#{@folder}/#{architecture}/#{repository}/#{coq_version}/*").map do |name|
   #     [File.basename(name),
