@@ -53,7 +53,7 @@ class Database
   def packages(architecture, repository, coq_version, time)
     file_name = "#{@folder}/#{architecture}/#{repository}/#{coq_version}/#{time.strftime("%F_%T")}.csv"
     CSV.read(file_name).map do |row|
-      [row[0][4..-1], row[1], Result.new(row[2..-1])]
+      [row[0][4..-1], row[1], Result.new(*row[2..-1])]
     end.sort
   end
 

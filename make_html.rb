@@ -14,12 +14,16 @@ include(ERB::Util)
 # Prepare the database.
 database = Database.new("../database")
 
+# Number of generated files.
+nb_generated = 0
+
 # Generate the index.
 renderer = ERB.new(File.read("index.html.erb", :encoding => "UTF-8"))
 File.open("html/index.html", "w") do |file|
   file << renderer.result().gsub(/\n\s*\n/, "\n")
 end
 puts "html/index.html"
+nb_generated += 1
 
 class Numeric
   # Pretty-print a duration in seconds.
@@ -52,6 +56,7 @@ for architecture in database.architectures do
       file << renderer.result().gsub(/\n\s*\n/, "\n")
     end
     puts file_name
+    nb_generated += 1
   end
 end
 
@@ -69,6 +74,7 @@ for architecture in database.architectures do
             file << renderer.result().gsub(/\n\s*\n/, "\n")
           end
           puts file_name
+          nb_generated += 1
         end
       end
     end
@@ -76,4 +82,25 @@ for architecture in database.architectures do
 end
 
 # Generate the logs for each package.
-# TODO
+for architecture in database.architectures do
+  for repository in Database.repositories do
+    for coq_version in database.coq_versions(architecture, repository) do
+      for time in database.times(architecture, repository, coq_version) do
+        packages = database.packages(architecture, repository, coq_version, time)
+        for name, version, result in packages do
+          folder_name = "html/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
+          FileUtils.mkdir_p(folder_name)
+          renderer = ERB.new(File.read("logs.html.erb", :encoding => "UTF-8"))
+          file_name = "#{folder_name}/#{time.strftime("%F_%H-%M-%S")}.html"
+          File.open(file_name, "w") do |file|
+            file << renderer.result().gsub(/\n\s*\n/, "\n")
+          end
+          puts file_name
+          nb_generated += 1
+        end
+      end
+    end
+  end
+end
+
+puts "#{nb_generated} HTML files."

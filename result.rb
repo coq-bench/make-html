@@ -1,8 +1,11 @@
 # The result of a bench.
 class Result
-  def initialize(result)
-    @status = result[0]
-    @duration = result[1]
+  def initialize(*arguments)
+    @status,
+      @dry_command, @dry_status, @dry_duration, @dry_output, @dry_json,
+      @deps_command, @deps_status, @deps_duration, @deps_output,
+      @package_command, @package_status, @package_duration, @package_output =
+      arguments
   end
 
   # The color to display.
@@ -25,7 +28,7 @@ class Result
   def table_message
     case @status
     when "Success"
-      @duration.to_i.duration
+      @package_duration.to_i.duration
     when "NotCompatible"
       "OK"
     when "DepsError", "Error"
@@ -39,7 +42,7 @@ class Result
   def history_message
     case @status
     when "Success"
-      @duration.to_i.duration
+      @package_duration.to_i.duration
     when "NotCompatible"
       "Not compatible with this Coq"
     when "DepsError"
