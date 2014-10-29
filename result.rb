@@ -1,5 +1,9 @@
 # The result of a bench.
 class Result
+  attr_reader :dry_command, :dry_status, :dry_duration, :dry_output, :dry_json,
+    :deps_command, :deps_status, :deps_duration, :deps_output,
+    :package_command, :package_status, :package_duration, :package_output
+
   def initialize(*arguments)
     @status,
       @dry_command, @dry_status, @dry_duration, @dry_output, @dry_json,

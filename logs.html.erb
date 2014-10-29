@@ -34,26 +34,40 @@
             <h2>Dry installation</h2>
             <dl class="dl-horizontal">
               <dt>Command</dt>
-              <dd><code>opam install --root=.opam_run -y --json=output.json --dry-run name.version</code></dd>
+              <dd><code><%= h(result.dry_command) %></code></dd>
               <dt>Return code</dt>
-              <dd>0</dd>
+              <dd><%= h(result.dry_status) %></dd>
               <dt>Duration</dt>
-              <dd>0 s</dd>
+              <dd><%= h(result.dry_duration.to_i.duration) %></dd>
               <dt>Output</dt>
-              <dd>
-                <pre>
-Building coq:abp.1.0.0:
-  ./configure.sh
-  make -j4
-  make install
-Installing coq:abp.1.0.0.
-                </pre>
-              </dd>
-              <dt>output.json</dt>
-              <dd>bla</dd>
+              <dd><pre><%= h(result.dry_output) %></pre></dd>
+              <dt><code>output.json</code></dt>
+              <dd><pre><%= h(result.dry_json) %></pre></dd>
             </dl>
+
             <h2>Installation of dependencies</h2>
+            <dl class="dl-horizontal">
+              <dt>Command</dt>
+              <dd><code><%= h(result.deps_command) %></code></dd>
+              <dt>Return code</dt>
+              <dd><%= h(result.deps_status) %></dd>
+              <dt>Duration</dt>
+              <dd><%= h(result.deps_duration.to_i.duration) %></dd>
+              <dt>Output</dt>
+              <dd><pre><%= h(result.deps_output) %></pre></dd>
+            </dl>
+
             <h2>Installation</h2>
+            <dl class="dl-horizontal">
+              <dt>Command</dt>
+              <dd><code><%= h(result.package_command) %></code></dd>
+              <dt>Return code</dt>
+              <dd><%= h(result.package_status) %></dd>
+              <dt>Duration</dt>
+              <dd><%= h(result.package_duration.to_i.duration) %></dd>
+              <dt>Output</dt>
+              <dd><pre><%= h(result.package_output) %></pre></dd>
+            </dl>
           </div>
         </div>
       </div>
