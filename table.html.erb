@@ -31,7 +31,6 @@
             <h1><%= h(repository.capitalize) %></h1>
             <% os, machine, ocaml, opam = architecture.split("-") %>
             <em><%= h("#{os}, #{machine}, OCaml #{ocaml}, Opam #{opam}") %></em>
-            <% for coq_version in database.coq_versions(architecture, repository) %>
             <table class="table table-striped text-center">
               <thead>
                 <tr>
@@ -43,13 +42,18 @@
                 </tr>
               </thead>
               <tbody>
-                <% time = database.times(architecture, repository, coq_version)[0] %>
-                <% for name, version, result in database.packages(architecture, repository, coq_version, time) %>
+                <% for name, results in database.packages_hash(architecture, repository).sort %>
+                  <% first_row = true %>
+                  <% for version, results in results.sort %>
                 <tr>
-                  <td><%= h(name) %></td>
+                  <td><%= first_row ? h(name) : "" %></td>
                   <td><%= h(version) %></td>
-                  <td class="<%= result.css_class %>"><a href="<%= "#{u(coq_version)}/#{u(name)}/#{u(version)}.html" %>"><%= h(result.table_message) %></a></td>
+                    <% for coq_version, result in results.sort %>
+                  <td class="<%= result.css_class %>"><a href="<%= "#{u(coq_version)}/#{u(name)}/#{u(version)}/" %>"><%= h(result.table_message) %></a></td>
+                    <% end %>
                 </tr>
+                    <% first_row = false %>
+                  <% end %>
                 <% end %>
               </tbody>
             </table>
@@ -60,7 +64,6 @@
               <li class="bg-warning">Error in dependencies</li>
               <li class="bg-danger">Error</li>
             </ul>
-            <% end %>
           </div>
         </div>
       </div>
