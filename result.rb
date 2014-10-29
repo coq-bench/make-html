@@ -28,8 +28,8 @@ class Result
     end
   end
 
-  # The message to diplay in the main table.
-  def table_message
+  # A short message for the status.
+  def short_message
     case @status
     when "Success"
       @package_duration.to_i.duration
@@ -42,8 +42,8 @@ class Result
     end
   end
 
-  # The message to display in the history list.
-  def history_message
+  # A long message for the status.
+  def long_message
     case @status
     when "Success"
       @package_duration.to_i.duration

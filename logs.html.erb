@@ -28,7 +28,13 @@
       <div class="article">
         <div class="row">
           <div class="col-md-12">
-            <h1><%= h(name) %> <small><%= h(version) %></small></h1>
+            <h1>
+              <%= h(name) %>
+              <small>
+                <%= h(version) %>
+                <span class="label label-<%= result.css_class %>"><%= h(result.long_message) %></span>
+              </small>
+            </h1>
             <em><%= h(time.strftime("%F %T")) %> UTC</em>
 
             <h2>Dry installation</h2>
