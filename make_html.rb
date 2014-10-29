@@ -55,18 +55,16 @@ for architecture in database.architectures do
   end
 end
 
-exit
-
 # Generate the history for each package.
 for architecture in database.architectures do
-  for coq_version in database.coq_versions(architecture) do
-    for repository in Database.repositories do
-      for name, versions in database.packages(architecture, coq_version, repository) do
-        folder_name = "html/#{architecture}/#{coq_version}/#{repository}/#{name}"
-        FileUtils.mkdir_p(folder_name)
-        for version in versions do
-          renderer = ERB.new(File.read("package.html.erb", :encoding => "UTF-8"))
-          file_name = "#{folder_name}/#{version}.html"
+  for repository in Database.repositories do
+    for name, results in database.packages_hash(architecture, repository) do
+      for version, results in results do
+        for coq_version, _ in results do
+          folder_name = "html/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
+          FileUtils.mkdir_p(folder_name)
+          renderer = ERB.new(File.read("history.html.erb", :encoding => "UTF-8"))
+          file_name = "#{folder_name}/index.html"
           File.open(file_name, "w") do |file|
             file << renderer.result().gsub(/\n\s*\n/, "\n")
           end

@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Coq bench</title>
-    <link rel="shortcut icon" type="image/png" href="../../../../favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="../../../../../favicon.png" />
 
-    <link href="../../../../bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../../bootstrap.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -21,7 +21,7 @@
       <div class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="../../../.."><i class="fa fa-lg fa-flag-checkered"></i>  Coq bench</a>
+            <a class="navbar-brand" href="../../../../.."><i class="fa fa-lg fa-flag-checkered"></i>  Coq bench</a>
           </div>
         </div>
       </div>
@@ -38,26 +38,11 @@
                 </tr>
               </thead>
               <tbody>
-                <% for bench in database.read_history(architecture, coq_version, repository, name, version) do %>
-                <%
-                  status =
-                    case bench[1]
-                    when "Success"
-                      bench[2].to_i.duration
-                    when "NotCompatible"
-                      "Not compatible"
-                    when "DepsError"
-                      "Error in dependencies"
-                    when "Error"
-                      "Error"
-                    else
-                      raise "unknown status #{bench[1]}"
-                    end
-                %>
+                <% for time, result in database.history(architecture, repository, coq_version, name, version).sort.reverse %>
                 <tr>
-                  <td><%= h(bench[0].strftime("%Y-%m-%d")) %></td>
-                  <td><%= h(bench[0].strftime("%T")) %></td>
-                  <td class="<%= css_class_of_bench(bench) %>"><%= h(status) %></td>
+                  <td><%= h(time.strftime("%F")) %></td>
+                  <td><%= h(time.strftime("%T")) %></td>
+                  <td class="<%= result.css_class %>"><%= h(result.history_message) %></td>
                 </tr>
                 <% end %>
               </tbody>
@@ -76,6 +61,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../../../../bootstrap.min.js"></script>
+    <script src="../../../../../bootstrap.min.js"></script>
   </body>
 </html>

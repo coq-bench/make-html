@@ -72,6 +72,19 @@ class Database
     output
   end
 
+  def history(architecture, repository, coq_version, name, version)
+    history = {}
+    for time in times(architecture, repository, coq_version) do
+      packages = packages(architecture, repository, coq_version, time)
+      for name2, version2, result in packages do
+        if name == name2 && version == version2 then
+          history[time] = result
+        end
+      end
+    end
+    history
+  end
+
   # def packages(architecture, repository, coq_version)
   #   (Dir.glob("#{@folder}/#{architecture}/#{repository}/#{coq_version}/*").map do |name|
   #     [File.basename(name),
