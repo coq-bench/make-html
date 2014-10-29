@@ -1,9 +1,11 @@
+# The result of a bench.
 class Result
   def initialize(result)
     @status = result[0]
     @duration = result[1]
   end
 
+  # The color to display.
   def css_class
     case @status
     when "Success"
@@ -19,6 +21,7 @@ class Result
     end
   end
 
+  # The message to diplay in the table.
   def table_message
     case @status
     when "Success"

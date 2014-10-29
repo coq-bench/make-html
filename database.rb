@@ -5,6 +5,7 @@ require 'time'
 require_relative 'result'
 
 class Database
+  # The names of expected repositories.
   def Database.repositories
     ["stable", "testing", "unstable"]
   end
@@ -13,6 +14,7 @@ class Database
     @folder = folder
   end
 
+  # The architectures present in the database.
   def architectures
     Dir.glob("#{@folder}/*").map do |name|
       # We allow standard files at the root of the database (LICENSE, ...).
@@ -24,18 +26,23 @@ class Database
     end.find_all {|x| ! x.nil?}.sort {|x, y| x[0] <=> y[0]}
   end
 
+  # The Coq versions tested for a given architecture and repository.
   def coq_versions(architecture, repository)
     Dir.glob("#{@folder}/#{architecture}/#{repository}/*").map do |name|
       File.basename(name)
     end.sort {|x, y| compare_versions(x, y)}
   end
 
+  # The times of the benches for a given architecture, repository and Coq version.
   def times(architecture, repository, coq_version)
     Dir.glob("#{@folder}/#{architecture}/#{repository}/#{coq_version}/*.csv").map do |name|
       Time.strptime(File.basename(name, ".csv"), "%F_%T")
     end.sort.reverse
   end
 
+  # The list of tested packages in a bench. A bench is described by an
+  # architecture, a repository, a Coq version and a time. The output is an array
+  # of `[name, version, result]`.
   def packages(architecture, repository, coq_version, time)
     file_name = "#{@folder}/#{architecture}/#{repository}/#{coq_version}/#{time.strftime("%F_%T")}.csv"
     CSV.read(file_name).map do |row|
@@ -69,6 +76,8 @@ class Database
   # end
 
 private
+  # Compare two version numbers using the dpkg algorithm (the Debian package
+  # manager). Needs a Debian-based distribution.
   def compare_versions(x, y)
     if x == y then
       0

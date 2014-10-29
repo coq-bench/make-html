@@ -1,4 +1,4 @@
-# Generate an HTML website in `html/` from the database in `database/`.
+# Generate an HTML website in `html/` from a database in `../database/`.
 require 'erb'
 require 'fileutils'
 require_relative 'database'
@@ -12,7 +12,7 @@ FileUtils.cp(["bootstrap.min.css", "bootstrap.min.js", "favicon.png"], "html/")
 include(ERB::Util)
 
 # Prepare the database.
-database = Database.new("database")
+database = Database.new("../database")
 
 # Generate the index.
 renderer = ERB.new(File.read("index.html.erb", :encoding => "UTF-8"))
