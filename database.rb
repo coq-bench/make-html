@@ -72,6 +72,7 @@ class Database
     output
   end
 
+  # `{time => result}`
   def history(architecture, repository, coq_version, name, version)
     history = {}
     for time in times(architecture, repository, coq_version) do
@@ -84,23 +85,6 @@ class Database
     end
     history
   end
-
-  # def packages(architecture, repository, coq_version)
-  #   (Dir.glob("#{@folder}/#{architecture}/#{repository}/#{coq_version}/*").map do |name|
-  #     [File.basename(name),
-  #       (Dir.glob("#{name}/*").map do |path|
-  #         File.basename(path, ".csv")
-  #       end).sort {|x, y| compare_versions(x, y)}]
-  #   end).sort {|x, y| x[0] <=> y[0]}
-  # end
-
-  # def read_history(architecture, coq_version, repository, name, version)
-  #   file_name = "#{@folder}/#{architecture}/#{coq_version}/#{repository}/#{name}/#{version}.csv"
-  #   rows = CSV.read(file_name).map do |row|
-  #     [Time.at(row[0].to_i)] + row[1..-1]
-  #   end
-  #   rows.sort {|x, y| - (x[0] <=> y[0])}
-  # end
 
 private
   # Compare two version numbers using the dpkg algorithm (the Debian package

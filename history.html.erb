@@ -42,7 +42,7 @@
                 <tr>
                   <td><%= h(time.strftime("%F")) %></td>
                   <td><%= h(time.strftime("%T")) %></td>
-                  <td class="<%= result.css_class %>"><%= h(result.history_message) %></td>
+                  <td class="<%= result.css_class %>"><a href="<%= u(time.strftime("%F_%H-%M-%S") + ".html") %>"><%= h(result.history_message) %></a></td>
                 </tr>
                 <% end %>
               </tbody>

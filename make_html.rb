@@ -74,3 +74,6 @@ for architecture in database.architectures do
     end
   end
 end
+
+# Generate the logs for each package.
+# TODO

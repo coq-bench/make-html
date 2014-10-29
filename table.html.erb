@@ -48,8 +48,12 @@
                 <tr>
                   <td><%= first_row ? h(name) : "" %></td>
                   <td><%= h(version) %></td>
-                    <% for coq_version, result in results.sort %>
+                    <% for coq_version in database.coq_versions(architecture, repository) %>
+                      <% if result = results[coq_version] then %>
                   <td class="<%= result.css_class %>"><a href="<%= "#{u(coq_version)}/#{u(name)}/#{u(version)}/" %>"><%= h(result.table_message) %></a></td>
+                      <% else %>
+                  <td></td>
+                      <% end %>
                     <% end %>
                 </tr>
                     <% first_row = false %>
