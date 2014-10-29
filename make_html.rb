@@ -6,7 +6,7 @@ require_relative 'database'
 FileUtils.mkdir_p("html")
 
 # Copy the CSS and JavaScript.
-FileUtils.cp(["bootstrap.min.css", "bootstrap.min.js", "favicon.png"], "html/")
+FileUtils.cp(["about.html", "bootstrap.min.css", "bootstrap.min.js", "favicon.png"], "html/")
 
 # Prepare ERB.
 include(ERB::Util)
@@ -18,7 +18,7 @@ database = Database.new("../database")
 nb_generated = 0
 
 # Generate the index.
-renderer = ERB.new(File.read("index.html.erb", :encoding => "UTF-8"))
+renderer = ERB.new(File.read("index.html.erb", encoding: "UTF-8"))
 File.open("html/index.html", "w") do |file|
   file << renderer.result().gsub(/\n\s*\n/, "\n")
 end
@@ -46,7 +46,7 @@ class Numeric
 end
 
 # Generate the tables of results.
-renderer = ERB.new(File.read("table.html.erb", :encoding => "UTF-8"))
+renderer = ERB.new(File.read("table.html.erb", encoding: "UTF-8"))
 for architecture in database.architectures do
   for repository in Database.repositories do
     folder_name = "html/#{architecture}/#{repository}"
@@ -68,7 +68,7 @@ for architecture in database.architectures do
         for coq_version, _ in results do
           folder_name = "html/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
           FileUtils.mkdir_p(folder_name)
-          renderer = ERB.new(File.read("history.html.erb", :encoding => "UTF-8"))
+          renderer = ERB.new(File.read("history.html.erb", encoding: "UTF-8"))
           file_name = "#{folder_name}/index.html"
           File.open(file_name, "w") do |file|
             file << renderer.result().gsub(/\n\s*\n/, "\n")
@@ -90,7 +90,7 @@ for architecture in database.architectures do
         for name, version, result in packages do
           folder_name = "html/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
           FileUtils.mkdir_p(folder_name)
-          renderer = ERB.new(File.read("logs.html.erb", :encoding => "UTF-8"))
+          renderer = ERB.new(File.read("logs.html.erb", encoding: "UTF-8"))
           file_name = "#{folder_name}/#{time.strftime("%F_%H-%M-%S")}.html"
           File.open(file_name, "w") do |file|
             file << renderer.result().gsub(/\n\s*\n/, "\n")
