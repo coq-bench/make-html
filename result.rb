@@ -24,7 +24,7 @@ class Result
     when "Error"
       "danger"
     else
-      raise "unknown status #{@status}"
+      raise "unknown status #{@status.inspect}"
     end
   end
 
@@ -38,7 +38,7 @@ class Result
     when "DepsError", "Error"
       "Error"
     else
-      raise "unknown status #{@status}"
+      raise "unknown status #{@status.inspect}"
     end
   end
 
