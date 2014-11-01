@@ -6,14 +6,13 @@ require_relative 'result'
 
 class Database
   attr_reader :in_memory
-  
+
   # The names of expected repositories.
   def Database.repositories
     ["stable", "testing", "unstable"]
   end
 
   def initialize(folder)
-    @folder = folder
     # `{architecture => repository => coq_version => time => name => version =>
     #   result}`.
     @in_memory = {}
