@@ -86,17 +86,19 @@ for architecture in database.architectures do
   for repository in Database.repositories do
     for coq_version in database.coq_versions(architecture, repository) do
       for time in database.times(architecture, repository, coq_version) do
-        packages = database.packages(architecture, repository, coq_version, time)
-        for name, version, result in packages do
-          folder_name = "html/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
-          FileUtils.mkdir_p(folder_name)
-          renderer = ERB.new(File.read("logs.html.erb", encoding: "UTF-8"))
-          file_name = "#{folder_name}/#{time.strftime("%F_%H-%M-%S")}.html"
-          File.open(file_name, "w") do |file|
-            file << renderer.result().gsub(/\n\s*\n/, "\n")
+        results = database.in_memory[architecture][repository][coq_version][time]
+        for name, results in results do
+          for version, result in results do
+            folder_name = "html/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
+            FileUtils.mkdir_p(folder_name)
+            renderer = ERB.new(File.read("logs.html.erb", encoding: "UTF-8"))
+            file_name = "#{folder_name}/#{time.strftime("%F_%H-%M-%S")}.html"
+            File.open(file_name, "w") do |file|
+              file << renderer.result().gsub(/\n\s*\n/, "\n")
+            end
+            puts file_name
+            nb_generated += 1
           end
-          puts file_name
-          nb_generated += 1
         end
       end
     end
