@@ -55,17 +55,27 @@
             <em><%= h(time.strftime("%F %T")) %> UTC</em>
 
             <h2>Dry installation</h2>
+            <p>Dry installation with the current Coq version:</p>
             <dl class="dl-horizontal">
               <dt>Command</dt>
-              <dd><code><%= h(result.dry_command) %></code></dd>
+              <dd><code><%= h(result.dry_with_coq_command) %></code></dd>
               <dt>Return code</dt>
-              <dd><%= h(result.dry_status) %></dd>
+              <dd><%= h(result.dry_with_coq_status) %></dd>
               <dt>Duration</dt>
-              <dd><%= h(result.dry_duration.to_i.duration) %></dd>
+              <dd><%= h(result.dry_with_coq_duration.to_i.duration) %></dd>
               <dt>Output</dt>
-              <dd><pre><%= h(result.dry_output) %></pre></dd>
-              <dt><code>output.json</code></dt>
-              <dd><pre><%= h(result.dry_json) %></pre></dd>
+              <dd><pre><%= h(result.dry_with_coq_output) %></pre></dd>
+            </dl>
+            <p>Dry installation without Coq, to test if the problem was incompatibility with the current Coq version:</p>
+            <dl class="dl-horizontal">
+              <dt>Command</dt>
+              <dd><code><%= h(result.dry_without_coq_command) %></code></dd>
+              <dt>Return code</dt>
+              <dd><%= h(result.dry_without_coq_status) %></dd>
+              <dt>Duration</dt>
+              <dd><%= h(result.dry_without_coq_duration.to_i.duration) %></dd>
+              <dt>Output</dt>
+              <dd><pre><%= h(result.dry_without_coq_output) %></pre></dd>
             </dl>
 
             <h2>Installation of dependencies</h2>

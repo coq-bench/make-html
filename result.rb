@@ -1,12 +1,15 @@
 # The result of a bench.
 class Result
-  attr_reader :dry_command, :dry_status, :dry_duration, :dry_output, :dry_json,
+  attr_reader :status,
+    :dry_with_coq_command, :dry_with_coq_status, :dry_with_coq_duration, :dry_with_coq_output,
+    :dry_without_coq_command, :dry_without_coq_status, :dry_without_coq_duration, :dry_without_coq_output,
     :deps_command, :deps_status, :deps_duration, :deps_output,
     :package_command, :package_status, :package_duration, :package_output
 
   def initialize(*arguments)
     @status,
-      @dry_command, @dry_status, @dry_duration, @dry_output, @dry_json,
+      @dry_with_coq_command, @dry_with_coq_status, @dry_with_coq_duration, @dry_with_coq_output,
+      @dry_without_coq_command, @dry_without_coq_status, @dry_without_coq_duration, @dry_without_coq_output,
       @deps_command, @deps_status, @deps_duration, @deps_output,
       @package_command, @package_status, @package_duration, @package_output =
       arguments
