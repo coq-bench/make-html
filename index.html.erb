@@ -65,13 +65,19 @@
                   <td><%= h(ocaml) %></td>
                   <td><%= h(opam) %></td>
                   <% for repository in Database.repositories %>
-                  <td><a href="<%= "#{u(architecture)}/#{repository}/" %>"><%= h(database.coq_versions(architecture, repository).size) %></a></td>
+                    <%
+                      nb_benches = 0
+                      for coq_version in database.coq_versions(architecture, repository) do
+                        nb_benches += database.times(architecture, repository, coq_version).size
+                      end
+                    %>
+                  <td><a href="<%= "#{u(architecture)}/#{repository}/" %>"><%= h(nb_benches) %></a></td>
                   <% end %>
                 </tr>
                 <% end %>
               </tbody>
             </table>
-            <p>The numbers in the table above are the numbers of Coq versions tested for each configuration.</p>
+            <p>The numbers in the table above are the numbers of benches ran per configuration.</p>
           </div>
         </div>
       </div>
