@@ -54,8 +54,8 @@
             </h1>
             <em><%= h(time.strftime("%F %T")) %> UTC</em>
 
-            <h2>Dry installation</h2>
-            <p>Dry installation with the current Coq version:</p>
+            <h2>Dry install</h2>
+            <p>Dry install with the current Coq version:</p>
             <dl class="dl-horizontal">
               <dt>Command</dt>
               <dd><code><%= h(result.dry_with_coq_command) %></code></dd>
@@ -66,7 +66,7 @@
               <dt>Output</dt>
               <dd><pre><%= h(result.dry_with_coq_output) %></pre></dd>
             </dl>
-            <p>Dry installation without Coq, to test if the problem was incompatibility with the current Coq version:</p>
+            <p>Dry install without Coq, to test if the problem was incompatibility with the current Coq version:</p>
             <dl class="dl-horizontal">
               <dt>Command</dt>
               <dd><code><%= h(result.dry_without_coq_command) %></code></dd>
@@ -78,7 +78,7 @@
               <dd><pre><%= h(result.dry_without_coq_output) %></pre></dd>
             </dl>
 
-            <h2>Installation of dependencies</h2>
+            <h2>Install dependencies</h2>
             <dl class="dl-horizontal">
               <dt>Command</dt>
               <dd><code><%= h(result.deps_command) %></code></dd>
@@ -90,7 +90,7 @@
               <dd><pre><%= h(result.deps_output) %></pre></dd>
             </dl>
 
-            <h2>Installation</h2>
+            <h2>Install</h2>
             <dl class="dl-horizontal">
               <dt>Command</dt>
               <dd><code><%= h(result.package_command) %></code></dd>
@@ -100,6 +100,42 @@
               <dd><%= h(result.package_duration.to_i.duration) %></dd>
               <dt>Output</dt>
               <dd><pre><%= h(result.package_output) %></pre></dd>
+            </dl>
+
+            <h2>Uninstall</h2>
+            <dl class="dl-horizontal">
+              <dt>Command</dt>
+              <dd><code><%= h(result.uninstall_command) %></code></dd>
+              <dt>Return code</dt>
+              <dd><%= h(result.uninstall_status) %></dd>
+              <dt>Duration</dt>
+              <dd><%= h(result.uninstall_duration.to_i.duration) %></dd>
+              <dt>Output</dt>
+              <dd><pre><%= h(result.uninstall_output) %></pre></dd>
+              <dt>Missing removes</dt>
+              <dd>
+                <% if result.missing_removes == "" then %>
+                none
+                <% else %>
+                <ul>
+                  <% for file in result.missing_removes.split("\n") %>
+                  <li><code><%= h(file) %></code></li>
+                  <% end %>
+                </ul>
+                <% end %>
+              </dd>
+              <dt>Wrong removes</dt>
+              <dd>
+                <% if result.mistake_removes == "" then %>
+                none
+                <% else %>
+                <ul>
+                  <% for file in result.mistake_removes.split("\n") %>
+                  <li><code><%= h(file) %></code></li>
+                  <% end %>
+                </ul>
+                <% end %>
+              </dd>
             </dl>
           </div>
         </div>
