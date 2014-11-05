@@ -50,15 +50,15 @@
             <table class="table table-striped text-center">
               <thead>
                 <tr>
-                  <td>Name</td>
-                  <td>Version</td>
+                  <td></td>
+                  <td></td>
                   <% for coq_version in database.coq_versions(architecture, repository) %>
                   <td><%= h(coq_version) %></td>
                   <% end %>
                 </tr>
                 <tr>
-                  <td></td>
-                  <td></td>
+                <td>Name</td>
+                  <td>Version</td>
                   <td><small><script>document.write(moment("<%= h(database.times(architecture, repository, coq_version)[0].strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></small></td>
                 </tr>
               </thead>
