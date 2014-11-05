@@ -8,6 +8,7 @@
 
     <link href="../../bootstrap.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="../../moment.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -55,6 +56,11 @@
                   <td><%= h(coq_version) %></td>
                   <% end %>
                 </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td><small><script>document.write(moment("<%= h(database.times(architecture, repository, coq_version)[0].strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></small></td>
+                </tr>
               </thead>
               <tbody>
                 <% for name, results in database.packages_hash(architecture, repository).sort %>
@@ -94,9 +100,7 @@
       </div>
     </div>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../../bootstrap.min.js"></script>
   </body>
 </html>

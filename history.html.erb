@@ -8,6 +8,7 @@
 
     <link href="../../../../../bootstrap.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="../../../../../moment.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,6 +51,7 @@
                 <tr>
                   <td>Date</td>
                   <td>Time</td>
+                  <td>Relative</td>
                   <td>Status</td>
                 </tr>
               </thead>
@@ -58,6 +60,7 @@
                 <tr>
                   <td><%= h(time.strftime("%F")) %></td>
                   <td><%= h(time.strftime("%T")) %></td>
+                  <td><script>document.write(moment("<%= h(time.strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></td>
                   <td class="<%= result.css_class %>"><a href="<%= u(time.strftime("%F_%H-%M-%S") + ".html") %>"><%= h(result.long_message) %></a></td>
                 </tr>
                 <% end %>
@@ -74,9 +77,7 @@
       </div>
     </div>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../../../../../bootstrap.min.js"></script>
   </body>
 </html>
