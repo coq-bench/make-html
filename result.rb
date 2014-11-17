@@ -1,6 +1,7 @@
 # The result of a bench.
 class Result
   attr_reader :status,
+    :lint_command, :lint_status, :lint_duration, :lint_output,
     :dry_with_coq_command, :dry_with_coq_status, :dry_with_coq_duration, :dry_with_coq_output,
     :dry_without_coq_command, :dry_without_coq_status, :dry_without_coq_duration, :dry_without_coq_output,
     :deps_command, :deps_status, :deps_duration, :deps_output,
@@ -10,6 +11,7 @@ class Result
 
   def initialize(*arguments)
     @status,
+      @lint_command, @lint_status, @lint_duration, @lint_output,
       @dry_with_coq_command, @dry_with_coq_status, @dry_with_coq_duration, @dry_with_coq_output,
       @dry_without_coq_command, @dry_without_coq_status, @dry_without_coq_duration, @dry_without_coq_output,
       @deps_command, @deps_status, @deps_duration, @deps_output,
@@ -28,7 +30,7 @@ class Result
       "info"
     when "DepsError"
       "warning"
-    when "Error", "UninstallError"
+    when "LintError", "Error", "UninstallError"
       "danger"
     else
       raise "unknown status #{@status.inspect}"
@@ -42,7 +44,7 @@ class Result
       @package_duration.to_i.duration
     when "NotCompatible"
       "OK"
-    when "DepsError", "Error", "UninstallError"
+    when "LintError", "DepsError", "Error", "UninstallError"
       "Error"
     else
       raise "unknown status #{@status.inspect}"
@@ -54,6 +56,8 @@ class Result
     case @status
     when "Success"
       @package_duration.to_i.duration
+    when "LintError"
+      "Lint error"
     when "NotCompatible"
       "Not compatible with this Coq"
     when "DepsError"
