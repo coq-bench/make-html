@@ -70,4 +70,20 @@ class Result
       raise "unknown status #{@status}"
     end
   end
+
+  # A kind to classify a status.
+  def kind
+    case @status
+    when "Success"
+      :success
+    when "NotCompatible"
+      :ok
+    when "DepsError"
+      :deps
+    when "LintError", "Error", "UninstallError"
+      :error
+    else
+      raise "unknown status #{@status}"
+    end
+  end
 end

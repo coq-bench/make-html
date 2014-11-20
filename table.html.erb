@@ -57,10 +57,25 @@
                   <% end %>
                 </tr>
                 <tr>
+                  <td></td>
+                  <td></td>
+                  <% for coq_version in database.coq_versions(architecture, repository) %>
+                  <td><%= h(coq_version) %></td>
+                  <% end %>
+                </tr>
+                <tr>
                   <td>Name</td>
                   <td>Version</td>
                   <% for coq_version in database.coq_versions(architecture, repository) %>
-                  <td><%= h(coq_version) %></td>
+                    <% stats = database.stats(architecture, repository, coq_version) %>
+                  <td>
+                    <small>
+                      <span class="label label-success"><%= h(stats[:success]) %></span>
+                      <span class="label label-info"><%= h(stats[:ok]) %></span>
+                      <span class="label label-warning"><%= h(stats[:deps]) %></span>
+                      <span class="label label-danger"><%= h(stats[:error]) %></span>
+                    </small>
+                  </td>
                   <% end %>
                 </tr>
               </thead>

@@ -81,6 +81,23 @@ class Database
     output
   end
 
+  # The numbers of success, incompatibilities, dependencies errors and errors.
+  def stats(architecture, repository, coq_version)
+    output = {
+      success: 0,
+      ok: 0,
+      deps: 0,
+      error: 0
+    }
+    time = times(architecture, repository, coq_version)[0]
+    for name, results in @in_memory[architecture][repository][coq_version][time] do
+      for version, result in results do
+        output[result.kind] += 1
+      end
+    end
+    output
+  end
+
   # `{time => result}`.
   def history(architecture, repository, coq_version, name, version)
     history = {}
