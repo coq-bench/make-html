@@ -9,7 +9,7 @@ class Database
 
   # The names of expected repositories.
   def Database.repositories
-    ["stable", "testing", "unstable"]
+    ["stable", "unstable"]
   end
 
   def initialize(folder)
