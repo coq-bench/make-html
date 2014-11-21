@@ -81,18 +81,31 @@ class Database
     output
   end
 
-  # The numbers of success, incompatibilities, dependencies errors and errors.
+  # The numbers of incompatibilities, errors, dependencies errors and successes,
+  # in this order.
   def stats(architecture, repository, coq_version)
-    output = {
-      success: 0,
-      ok: 0,
-      deps: 0,
-      error: 0
-    }
+    output = [0, 0, 0, 0]
     time = times(architecture, repository, coq_version)[0]
     for name, results in @in_memory[architecture][repository][coq_version][time] do
       for version, result in results do
-        output[result.kind] += 1
+        output[result.status.to_i] += 1
+      end
+    end
+    output
+  end
+
+  # Like `stats`, with the best results for all coq versions.
+  def best_stats(architecture, repository)
+    output = [0, 0, 0, 0]
+    for _, results in packages_hash(architecture, repository) do
+      for _, results in results do
+        best = 0
+        for coq_version in coq_versions(architecture, repository) do
+          if result = results[coq_version] then
+            best = [best, result.status.to_i].max
+          end
+        end
+        output[best] += 1
       end
     end
     output

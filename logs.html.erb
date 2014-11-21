@@ -50,7 +50,7 @@
               <%= h(name) %>
               <small>
                 <%= h(version) %>
-                <span class="label label-<%= result.css_class %>"><%= h(result.long_message) %></span>
+                <span class="label label-<%= "result.status.css_class" %>"><%= h(result.long_message) %></span>
               </small>
             </h1>
             <em><script>document.write(moment("<%= h(time.strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script> (<%= h(time.strftime("%F %T")) %> UTC)</em>

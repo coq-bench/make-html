@@ -1,3 +1,5 @@
+require_relative 'status'
+
 # The result of a bench.
 class Result
   attr_reader :status,
@@ -10,7 +12,7 @@ class Result
     :missing_removes, :mistake_removes
 
   def initialize(*arguments)
-    @status,
+    status,
       @lint_command, @lint_status, @lint_duration, @lint_output,
       @dry_with_coq_command, @dry_with_coq_status, @dry_with_coq_duration, @dry_with_coq_output,
       @dry_without_coq_command, @dry_without_coq_status, @dry_without_coq_duration, @dry_without_coq_output,
@@ -19,27 +21,12 @@ class Result
       @uninstall_command, @uninstall_status, @uninstall_duration, @uninstall_output,
       @missing_removes, @mistake_removes =
       arguments
-  end
-
-  # The color to display.
-  def css_class
-    case @status
-    when "Success"
-      "success"
-    when "NotCompatible"
-      "info"
-    when "DepsError"
-      "warning"
-    when "LintError", "Error", "UninstallError"
-      "danger"
-    else
-      raise "unknown status #{@status.inspect}"
-    end
+    @status = Status.new(status)
   end
 
   # A short message for the status.
   def short_message
-    case @status
+    case @status.status
     when "Success"
       @package_duration.to_i.duration
     when "NotCompatible"
@@ -53,7 +40,7 @@ class Result
 
   # A long message for the status.
   def long_message
-    case @status
+    case @status.status
     when "Success"
       @package_duration.to_i.duration
     when "LintError"
@@ -66,22 +53,6 @@ class Result
       "Error"
     when "UninstallError"
       "Uninstallation error"
-    else
-      raise "unknown status #{@status}"
-    end
-  end
-
-  # A kind to classify a status.
-  def kind
-    case @status
-    when "Success"
-      :success
-    when "NotCompatible"
-      :ok
-    when "DepsError"
-      :deps
-    when "LintError", "Error", "UninstallError"
-      :error
     else
       raise "unknown status #{@status}"
     end

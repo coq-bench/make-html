@@ -55,6 +55,11 @@
                   <% for coq_version in database.coq_versions(architecture, repository) %>
                   <td><small><script>document.write(moment("<%= h(database.times(architecture, repository, coq_version)[0].strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></small></td>
                   <% end %>
+                  <% if best_time = database.coq_versions(architecture, repository).map {|coq_version| database.times(architecture, repository, coq_version)[0]}.min %>
+                  <td><small><script>document.write(moment("<%= h(best_time.strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></small></td>
+                  <% else %>
+                  <td></td>
+                  <% end %>
                 </tr>
                 <tr>
                   <td></td>
@@ -62,6 +67,7 @@
                   <% for coq_version in database.coq_versions(architecture, repository) %>
                   <td><%= h(coq_version) %></td>
                   <% end %>
+                  <td>best</td>
                 </tr>
                 <tr>
                   <td>Name</td>
@@ -70,29 +76,41 @@
                     <% stats = database.stats(architecture, repository, coq_version) %>
                   <td>
                     <small>
-                      <span class="label label-success"><%= h(stats[:success]) %></span>
-                      <span class="label label-info"><%= h(stats[:ok]) %></span>
-                      <span class="label label-warning"><%= h(stats[:deps]) %></span>
-                      <span class="label label-danger"><%= h(stats[:error]) %></span>
+                      <span class="label label-success"><%= h(stats[3]) %></span>
+                      <span class="label label-info"><%= h(stats[0]) %></span>
+                      <span class="label label-warning"><%= h(stats[2]) %></span>
+                      <span class="label label-danger"><%= h(stats[1]) %></span>
                     </small>
                   </td>
                   <% end %>
+                  <td>
+                    <small>
+                      <% stats = database.best_stats(architecture, repository) %>
+                      <span class="label label-success"><%= h(stats[3]) %></span>
+                      <span class="label label-info"><%= h(stats[0]) %></span>
+                      <span class="label label-warning"><%= h(stats[2]) %></span>
+                      <span class="label label-danger"><%= h(stats[1]) %></span>
+                    </small>
+                  </td>
                 </tr>
               </thead>
               <tbody>
                 <% for name, results in database.packages_hash(architecture, repository).sort %>
                   <% first_row = true %>
                   <% for version, results in results.sort %>
+                    <% best = 0 %>
                 <tr>
                   <td><%= first_row ? h(name) : "" %></td>
                   <td><%= h(version) %></td>
                     <% for coq_version in database.coq_versions(architecture, repository) %>
                       <% if result = results[coq_version] then %>
-                  <td class="<%= result.css_class %>"><a href="<%= "#{u(coq_version)}/#{u(name)}/#{u(version)}/" %>"><%= h(result.short_message) %></a></td>
+                        <% best = [best, result.status.to_i].max %>
+                  <td class="<%= result.status.css_class %>"><a href="<%= "#{u(coq_version)}/#{u(name)}/#{u(version)}/" %>"><%= h(result.short_message) %></a></td>
                       <% else %>
                   <td></td>
                       <% end %>
                     <% end %>
+                  <td class="<%= ["info", "danger", "warning", "success"][best] %>"><%= h(["OK", "Error", "Error", "Success"][best]) %></td>
                 </tr>
                     <% first_row = false %>
                   <% end %>
