@@ -120,10 +120,11 @@
               <% if result.install_sizes == [] then %>
             <p>No files were installed.</p>
               <% else %>
+            <p>Total: <%= result.install_sizes.map {|x| x[1].to_i}.inject(:+).file_size %></p>
             <ul>
-              <% for file_name, size in result.install_sizes.sort_by {|x| x[1]}.reverse %>
-              <li><%= h(size.to_i.file_size) %> <code><%= h(file_name) %></code></li>
-              <% end %>
+                <% for file_name_size in result.install_sizes.sort_by {|x| x[1].to_i}.reverse %>
+              <li><%= h(file_name_size[1].to_i.file_size) %> <code><%= h(file_name_size[0]) %></code></li>
+                <% end %>
             </ul>
               <% end %>
             <% else %>
