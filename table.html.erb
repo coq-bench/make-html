@@ -46,7 +46,14 @@
             <a href="../..">« Up</a>
             <h1><%= h(repository.capitalize) %></h1>
             <% os, machine, ocaml, opam = architecture.split("-") %>
-            <em><%= h("#{os}, #{machine}, OCaml #{ocaml}, Opam #{opam}") %></em>
+            <p><em><%= h("#{os}, #{machine}, OCaml #{ocaml}, Opam #{opam}") %></em></p>
+            <p>The <em>best</em> column is the best result obtained for each package. Colors:</p>
+            <ul class="list-inline">
+              <li class="bg-success">Success</li>
+              <li class="bg-info">Not compatible with this Coq</li>
+              <li class="bg-warning">Error with dependencies</li>
+              <li class="bg-danger">Error</li>
+            </ul>
             <table class="table table-striped text-center">
               <thead>
                 <tr>
@@ -117,13 +124,6 @@
                 <% end %>
               </tbody>
             </table>
-            <ul class="list-inline">
-              <li>Colors:</li>
-              <li class="bg-success">Success</li>
-              <li class="bg-info">Not compatible with this Coq</li>
-              <li class="bg-warning">Error with dependencies</li>
-              <li class="bg-danger">Error</li>
-            </ul>
           </div>
         </div>
       </div>
