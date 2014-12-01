@@ -93,11 +93,14 @@ for architecture in database.architectures do
             FileUtils.mkdir_p(folder_name)
             renderer = ERB.new(File.read("logs.html.erb", encoding: "UTF-8"))
             file_name = "#{folder_name}/#{time.strftime("%F_%H-%M-%S")}.html"
-            File.open(file_name, "w") do |file|
-              file << renderer.result().gsub(/\n\s*\n/, "\n")
+            # Check if the file already exists.
+            unless File.exists?(file_name) then
+              File.open(file_name, "w") do |file|
+                file << renderer.result().gsub(/\n\s*\n/, "\n")
+              end
+              puts file_name
+              nb_generated += 1
             end
-            puts file_name
-            nb_generated += 1
           end
         end
       end
@@ -105,4 +108,4 @@ for architecture in database.architectures do
   end
 end
 
-puts "#{nb_generated} HTML files."
+puts "#{nb_generated} generated HTML files."
