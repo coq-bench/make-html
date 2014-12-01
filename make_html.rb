@@ -43,6 +43,21 @@ class Numeric
       "#{secs} s"
     end
   end
+
+  # Pretty-print a file size in kilo-bytes.
+  def file_size
+    size = self.to_int / 1024
+    if size == 0 then
+      "1 K"
+    else
+      parts = []
+      while size != 0 do
+        parts << size % 1000
+        size /= 1000
+      end
+      "#{parts.reverse.join(".")} K"
+    end
+  end
 end
 
 # Generate the tables of results.

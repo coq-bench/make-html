@@ -9,7 +9,7 @@ class Result
     :deps_command, :deps_status, :deps_duration, :deps_output,
     :package_command, :package_status, :package_duration, :package_output,
     :uninstall_command, :uninstall_status, :uninstall_duration, :uninstall_output,
-    :missing_removes, :mistake_removes
+    :missing_removes, :mistake_removes, :install_sizes
 
   def initialize(*arguments)
     status,
@@ -19,9 +19,12 @@ class Result
       @deps_command, @deps_status, @deps_duration, @deps_output,
       @package_command, @package_status, @package_duration, @package_output,
       @uninstall_command, @uninstall_status, @uninstall_duration, @uninstall_output,
-      @missing_removes, @mistake_removes =
+      @missing_removes, @mistake_removes, @install_sizes =
       arguments
     @status = Status.new(status)
+    @missing_removes = @missing_removes.split("\n")
+    @mistake_removes = @mistake_removes.split("\n")
+    @install_sizes &&= @install_sizes.split("\n").each_slice(2).to_a
   end
 
   # A short message for the status.
