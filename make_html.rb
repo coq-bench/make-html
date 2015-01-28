@@ -46,16 +46,21 @@ class Numeric
 
   # Pretty-print a file size in kilo-bytes.
   def file_size
-    size = self.to_int / 1024
+    size = self.to_int
     if size == 0 then
-      "1 K"
+      "0 K"
     else
-      parts = []
-      while size != 0 do
-        parts << size % 1000
-        size /= 1000
+      size = size / 1024
+      if size == 0 then
+        "1 K"
+      else
+        parts = []
+        while size != 0 do
+          parts << (size < 1000 ? size.to_s : sprintf("%03d", size % 1000))
+          size /= 1000
+        end
+        "#{parts.reverse.join(",")} K"
       end
-      "#{parts.reverse.join(".")} K"
     end
   end
 end
