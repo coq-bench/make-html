@@ -76,8 +76,10 @@
               <dd><%= h(result.dry_with_coq_status) %></dd>
               <dt>Duration</dt>
               <dd><%= h(result.dry_with_coq_duration.to_i.duration) %></dd>
+              <% unless result.dry_with_coq_output.empty? %>
               <dt>Output</dt>
               <dd><pre><%= h(result.dry_with_coq_output) %></pre></dd>
+              <% end %>
             </dl>
             <p>Dry install without Coq, to test if the problem was incompatibility with the current Coq version:</p>
             <dl class="dl-horizontal">
@@ -87,8 +89,10 @@
               <dd><%= h(result.dry_without_coq_status) %></dd>
               <dt>Duration</dt>
               <dd><%= h(result.dry_without_coq_duration.to_i.duration) %></dd>
+              <% unless result.dry_without_coq_output.empty? %>
               <dt>Output</dt>
               <dd><pre><%= h(result.dry_without_coq_output) %></pre></dd>
+              <% end %>
             </dl>
 
             <h2>Install dependencies</h2>
@@ -99,8 +103,10 @@
               <dd><%= h(result.deps_status) %></dd>
               <dt>Duration</dt>
               <dd><%= h(result.deps_duration.to_i.duration) %></dd>
+              <% unless result.deps_output.empty? %>
               <dt>Output</dt>
               <dd><pre><%= h(result.deps_output) %></pre></dd>
+              <% end %>
             </dl>
 
             <h2>Install</h2>
@@ -111,8 +117,10 @@
               <dd><%= h(result.package_status) %></dd>
               <dt>Duration</dt>
               <dd><%= h(result.package_duration.to_i.duration) %></dd>
+              <% unless result.package_output.empty? %>
               <dt>Output</dt>
               <dd><pre><%= h(result.package_output) %></pre></dd>
+              <% end %>
             </dl>
 
             <h2>Installation size</h2>
@@ -139,8 +147,10 @@
               <dd><%= h(result.uninstall_status) %></dd>
               <dt>Duration</dt>
               <dd><%= h(result.uninstall_duration.to_i.duration) %></dd>
+              <% unless result.uninstall_output.empty? %>
               <dt>Output</dt>
               <dd><pre><%= h(result.uninstall_output) %></pre></dd>
+              <% end %>
               <dt>Missing removes</dt>
               <dd>
                 <% if result.missing_removes == [] then %>
