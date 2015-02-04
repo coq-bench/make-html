@@ -2,7 +2,7 @@ require_relative 'status'
 
 # The result of a bench.
 class Result
-  attr_reader :status,
+  attr_reader :status, :context,
     :lint_command, :lint_status, :lint_duration, :lint_output,
     :dry_with_coq_command, :dry_with_coq_status, :dry_with_coq_duration, :dry_with_coq_output,
     :dry_without_coq_command, :dry_without_coq_status, :dry_without_coq_duration, :dry_without_coq_output,
@@ -12,7 +12,7 @@ class Result
     :missing_removes, :mistake_removes, :install_sizes
 
   def initialize(*arguments)
-    status,
+    status, @context,
       @lint_command, @lint_status, @lint_duration, @lint_output,
       @dry_with_coq_command, @dry_with_coq_status, @dry_with_coq_duration, @dry_with_coq_output,
       @dry_without_coq_command, @dry_without_coq_status, @dry_without_coq_duration, @dry_without_coq_output,
