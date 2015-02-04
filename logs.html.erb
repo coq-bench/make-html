@@ -63,8 +63,10 @@
               <dd><%= h(result.lint_status) %></dd>
               <dt>Duration</dt>
               <dd><%= h(result.lint_duration.to_i.duration) %></dd>
+              <% unless result.lint_output.empty? %>
               <dt>Output</dt>
               <dd><pre><%= h(result.lint_output) %></pre></dd>
+              <% end %>
             </dl>
 
             <h2>Dry install</h2>
