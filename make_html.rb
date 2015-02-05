@@ -3,10 +3,12 @@ require 'erb'
 require 'fileutils'
 require_relative 'database'
 
-FileUtils.mkdir_p("html")
+install_folder = "html/tree"
+
+FileUtils.mkdir_p(install_folder)
 
 # Copy the CSS and JavaScript.
-FileUtils.cp(["about.html", "bootstrap.min.css", "bootstrap.min.js", "favicon.png", "moment.min.js"], "html/")
+FileUtils.cp(["about.html", "bootstrap.min.css", "bootstrap.min.js", "favicon.png", "moment.min.js"], install_folder)
 
 # Prepare ERB.
 include(ERB::Util)
@@ -19,10 +21,10 @@ nb_generated = 0
 
 # Generate the index.
 renderer = ERB.new(File.read("index.html.erb", encoding: "UTF-8"))
-File.open("html/index.html", "w") do |file|
+File.open("#{install_folder}/index.html", "w") do |file|
   file << renderer.result().gsub(/\n\s*\n/, "\n")
 end
-puts "html/index.html"
+puts "#{install_folder}/index.html"
 nb_generated += 1
 
 class Numeric
@@ -69,7 +71,7 @@ end
 renderer = ERB.new(File.read("table.html.erb", encoding: "UTF-8"))
 for architecture in database.architectures do
   for repository in Database.repositories do
-    folder_name = "html/#{architecture}/#{repository}"
+    folder_name = "#{install_folder}/#{architecture}/#{repository}"
     FileUtils.mkdir_p(folder_name)
     file_name = "#{folder_name}/index.html"
     File.open(file_name, "w") do |file|
@@ -86,7 +88,7 @@ for architecture in database.architectures do
     for name, results in database.packages_hash(architecture, repository) do
       for version, results in results do
         for coq_version, _ in results do
-          folder_name = "html/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
+          folder_name = "#{install_folder}/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
           FileUtils.mkdir_p(folder_name)
           renderer = ERB.new(File.read("history.html.erb", encoding: "UTF-8"))
           file_name = "#{folder_name}/index.html"
@@ -109,7 +111,7 @@ for architecture in database.architectures do
         results = database.in_memory[architecture][repository][coq_version][time]
         for name, results in results do
           for version, result in results do
-            folder_name = "html/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
+            folder_name = "#{install_folder}/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
             FileUtils.mkdir_p(folder_name)
             renderer = ERB.new(File.read("logs.html.erb", encoding: "UTF-8"))
             file_name = "#{folder_name}/#{time.strftime("%F_%H-%M-%S")}.html"
