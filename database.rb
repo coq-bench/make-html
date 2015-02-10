@@ -30,7 +30,7 @@ class Database
             Dir.glob(regexp).map do |file_name|
               time = Time.strptime(File.basename(file_name, ".csv"), "%F_%T")
               @in_memory[architecture][repository][coq_version][time] ||= {}
-              CSV.read(file_name)[1..-1].map do |row|
+              CSV.read(file_name, encoding: "binary")[1..-1].map do |row|
                 name = row[0][4..-1]
                 @in_memory[architecture][repository][coq_version][time][name] ||= {}
                 version = row[1]
