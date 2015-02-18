@@ -60,9 +60,9 @@
                   <td></td>
                   <td></td>
                   <% for coq_version in database.coq_versions(architecture, repository) %>
-                  <td><small><script>document.write(moment("<%= h(database.times(architecture, repository, coq_version)[0].strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></small></td>
+                  <td><small><script>document.write(moment("<%= h(database.in_memory[architecture][repository][coq_version][:time].strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></small></td>
                   <% end %>
-                  <% if best_time = database.coq_versions(architecture, repository).map {|coq_version| database.times(architecture, repository, coq_version)[0]}.min %>
+                  <% if best_time = database.coq_versions(architecture, repository).map {|coq_version| database.in_memory[architecture][repository][coq_version][:time]}.min %>
                   <td><small><script>document.write(moment("<%= h(best_time.strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></small></td>
                   <% else %>
                   <td></td>
@@ -112,7 +112,7 @@
                     <% for coq_version in database.coq_versions(architecture, repository) %>
                       <% if result = results[coq_version] then %>
                         <% best = [best, result.status.to_i].max %>
-                  <td class="<%= result.status.css_class %>"><a href="<%= "#{u(coq_version)}/#{u(name)}/#{u(version)}/" %>"><%= h(result.short_message) %></a></td>
+                  <td class="<%= result.status.css_class %>"><a href="<%= "#{u(coq_version)}/#{u(name)}/#{u(version)}.html" %>"><%= h(result.short_message) %></a></td>
                       <% else %>
                   <td></td>
                       <% end %>

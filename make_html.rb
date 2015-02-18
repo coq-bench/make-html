@@ -87,27 +87,6 @@ for architecture in database.architectures do
   end
 end
 
-# Generate the history for each package.
-for architecture in database.architectures do
-  for repository in Database.repositories do
-    for name, results in database.packages_hash(architecture, repository) do
-      for version, results in results do
-        for coq_version, _ in results do
-          folder_name = "#{install_path}/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
-          FileUtils.mkdir_p(folder_name)
-          renderer = ERB.new(File.read("history.html.erb", encoding: "binary"))
-          file_name = "#{folder_name}/index.html"
-          File.open(file_name, "w") do |file|
-            file << renderer.result().gsub(/\n\s*\n/, "\n")
-          end
-          puts file_name
-          nb_generated += 1
-        end
-      end
-    end
-  end
-end
-
 # Generate the logs for each package.
 for architecture in database.architectures do
   for repository in Database.repositories do
