@@ -91,23 +91,19 @@ end
 for architecture in database.architectures do
   for repository in Database.repositories do
     for coq_version in database.coq_versions(architecture, repository) do
-      for time in database.times(architecture, repository, coq_version) do
-        results = database.in_memory[architecture][repository][coq_version][time]
-        for name, results in results do
-          for version, result in results do
-            folder_name = "#{install_path}/#{architecture}/#{repository}/#{coq_version}/#{name}/#{version}"
-            FileUtils.mkdir_p(folder_name)
-            renderer = ERB.new(File.read("logs.html.erb", encoding: "binary"))
-            file_name = "#{folder_name}/#{time.strftime("%F_%H-%M-%S")}.html"
-            # Check if the file already exists.
-            unless File.exists?(file_name) then
-              File.open(file_name, "w") do |file|
-                file << renderer.result().gsub(/\n\s*\n/, "\n")
-              end
-              puts file_name
-              nb_generated += 1
-            end
+      time = database.in_memory[architecture][repository][coq_version][:time]
+      results = database.in_memory[architecture][repository][coq_version][:results]
+      for name, results in results do
+        for version, result in results do
+          folder_name = "#{install_path}/#{architecture}/#{repository}/#{coq_version}/#{name}"
+          FileUtils.mkdir_p(folder_name)
+          renderer = ERB.new(File.read("logs.html.erb", encoding: "binary"))
+          file_name = "#{folder_name}/#{version}.html"
+          File.open(file_name, "w") do |file|
+            file << renderer.result().gsub(/\n\s*\n/, "\n")
           end
+          puts file_name
+          nb_generated += 1
         end
       end
     end
