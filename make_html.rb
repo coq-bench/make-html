@@ -2,35 +2,7 @@
 require 'erb'
 require 'fileutils'
 require_relative 'database'
-
-unless ARGV.size == 2 then
-  puts "Usage: ruby make_html.rb database_path html_path"
-  exit(1)
-end
-
-database_path, install_path = ARGV[0], ARGV[1]
-
-FileUtils.mkdir_p(install_path)
-
-# Copy the CSS and JavaScript.
-FileUtils.cp(["bootstrap.min.css", "bootstrap.min.js", "favicon.png", "moment.min.js"], install_path)
-
-# Prepare ERB.
 include(ERB::Util)
-
-# Prepare the database.
-database = Database.new(database_path)
-
-# Number of generated files.
-nb_generated = 0
-
-# Generate the index.
-renderer = ERB.new(File.read("index.html.erb", encoding: "binary"))
-File.open("#{install_path}/index.html", "w") do |file|
-  file << renderer.result().gsub(/\n\s*\n/, "\n")
-end
-puts "#{install_path}/index.html"
-nb_generated += 1
 
 class Numeric
   # Pretty-print a duration in seconds.
@@ -72,38 +44,66 @@ class Numeric
   end
 end
 
-# Generate the tables of results.
-renderer = ERB.new(File.read("table.html.erb", encoding: "binary"))
-for architecture in database.architectures do
-  for repository in Database.repositories do
-    folder_name = "#{install_path}/#{architecture}/#{repository}"
-    FileUtils.mkdir_p(folder_name)
-    file_name = "#{folder_name}/index.html"
-    File.open(file_name, "w") do |file|
-      file << renderer.result().gsub(/\n\s*\n/, "\n")
-    end
-    puts file_name
-    nb_generated += 1
-  end
+unless ARGV.size == 2 then
+  puts "Usage: ruby make_html.rb database_path html_path"
+  exit(1)
 end
 
-# Generate the logs for each package.
-for architecture in database.architectures do
-  for repository in Database.repositories do
-    for coq_version in database.coq_versions(architecture, repository) do
-      time = database.in_memory[architecture][repository][coq_version][:time]
-      results = database.in_memory[architecture][repository][coq_version][:results]
-      for name, results in results do
-        for version, result in results do
-          folder_name = "#{install_path}/#{architecture}/#{repository}/#{coq_version}/#{name}"
-          FileUtils.mkdir_p(folder_name)
-          renderer = ERB.new(File.read("logs.html.erb", encoding: "binary"))
-          file_name = "#{folder_name}/#{version}.html"
-          File.open(file_name, "w") do |file|
-            file << renderer.result().gsub(/\n\s*\n/, "\n")
+# Number of generated files.
+nb_generated = 0
+
+for mode in ["clean", "tree"] do
+  database_path, install_path = File.join(ARGV[0], mode), File.join(ARGV[1], mode)
+
+  FileUtils.mkdir_p(install_path)
+
+  # Copy the CSS and JavaScript.
+  FileUtils.cp(["bootstrap.min.css", "bootstrap.min.js", "favicon.png", "moment.min.js"], install_path)
+
+  # Prepare the database.
+  database = Database.new(database_path)
+
+  # Generate the index.
+  renderer = ERB.new(File.read("index.html.erb", encoding: "binary"))
+  File.open("#{install_path}/index.html", "w") do |file|
+    file << renderer.result().gsub(/\n\s*\n/, "\n")
+  end
+  puts "#{install_path}/index.html"
+  nb_generated += 1
+
+  # Generate the tables of results.
+  renderer = ERB.new(File.read("table.html.erb", encoding: "binary"))
+  for architecture in database.architectures do
+    for repository in Database.repositories do
+      folder_name = "#{install_path}/#{architecture}/#{repository}"
+      FileUtils.mkdir_p(folder_name)
+      file_name = "#{folder_name}/index.html"
+      File.open(file_name, "w") do |file|
+        file << renderer.result().gsub(/\n\s*\n/, "\n")
+      end
+      puts file_name
+      nb_generated += 1
+    end
+  end
+
+  # Generate the logs for each package.
+  for architecture in database.architectures do
+    for repository in Database.repositories do
+      for coq_version in database.coq_versions(architecture, repository) do
+        time = database.in_memory[architecture][repository][coq_version][:time]
+        results = database.in_memory[architecture][repository][coq_version][:results]
+        for name, results in results do
+          for version, result in results do
+            folder_name = "#{install_path}/#{architecture}/#{repository}/#{coq_version}/#{name}"
+            FileUtils.mkdir_p(folder_name)
+            renderer = ERB.new(File.read("logs.html.erb", encoding: "binary"))
+            file_name = "#{folder_name}/#{version}.html"
+            File.open(file_name, "w") do |file|
+              file << renderer.result().gsub(/\n\s*\n/, "\n")
+            end
+            puts file_name
+            nb_generated += 1
           end
-          puts file_name
-          nb_generated += 1
         end
       end
     end
