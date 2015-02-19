@@ -72,7 +72,9 @@ end
 puts "#{install_path}/index.html"
 nb_generated += 1
 
-for mode in ["clean", "tree"] do
+for mode in [:clean, :tree] do
+  database = databases[mode]
+
   # Generate the tables of results.
   renderer = ERB.new(File.read("table.html.erb", encoding: "binary"))
   for architecture in database.architectures do
