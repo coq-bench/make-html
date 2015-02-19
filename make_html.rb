@@ -13,7 +13,7 @@ database_path, install_path = ARGV[0], ARGV[1]
 FileUtils.mkdir_p(install_path)
 
 # Copy the CSS and JavaScript.
-FileUtils.cp(["about.html", "bootstrap.min.css", "bootstrap.min.js", "favicon.png", "moment.min.js"], install_path)
+FileUtils.cp(["bootstrap.min.css", "bootstrap.min.js", "favicon.png", "moment.min.js"], install_path)
 
 # Prepare ERB.
 include(ERB::Util)
