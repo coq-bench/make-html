@@ -52,6 +52,11 @@ class Database
     @in_memory.keys.sort
   end
 
+  # The more recent bench for an architecture.
+  def last_bench(architecture, repository)
+    @in_memory[architecture][repository].max_by {|_, results| results[:time]}[1][:time]
+  end
+
   # The Coq versions tested for a given architecture and repository.
   def coq_versions(architecture, repository)
     @in_memory[architecture][repository].keys.sort {|x, y| compare_versions(x, y)}
