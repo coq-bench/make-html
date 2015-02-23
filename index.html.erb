@@ -8,6 +8,7 @@
 
     <link href="bootstrap.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="moment.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,11 +30,6 @@
             </button>
             <a class="navbar-brand" href=""><i class="fa fa-lg fa-flag-checkered"></i> Coq bench</a>
           </div>
-          <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="about.html">About</a></li>
-            </ul>
-          </div>
         </div>
       </div>
       <div class="article">
@@ -43,7 +39,15 @@
             <em>The new new bench system for <a href="http://coq.inria.fr/">Coq</a>.</em>
             <p>We bench the Coq packages, not Coq itself or the contribs. The compilation times are only informative.</p>
 
-            <h2>Results</h2>
+            <% for mode in [:clean, :tree] %>
+            <h2><%= h(mode.to_s.capitalize) %></h2>
+            <p>
+              <% if mode == :clean %>
+              We install all packages in a fresh environment.
+              <% else %>
+              We install as many packages as possible, and then backtrack for incompatible ones.
+              <% end %>
+            </p>
             <table class="table table-striped text-center">
               <thead>
                 <tr>
@@ -56,7 +60,7 @@
                 </tr>
               </thead>
               <tbody>
-                <% for architecture in database.architectures %>
+                <% for architecture in databases[mode].architectures %>
                   <% os, machine, ocaml, opam = architecture.split("-") %>
                 <tr>
                   <td><%= h(os) %></td>
@@ -64,19 +68,13 @@
                   <td><%= h(ocaml) %></td>
                   <td><%= h(opam) %></td>
                   <% for repository in Database.repositories %>
-                    <%
-                      nb_benches = 0
-                      for coq_version in database.coq_versions(architecture, repository) do
-                        nb_benches += database.times(architecture, repository, coq_version).size
-                      end
-                    %>
-                  <td><a href="<%= "#{u(architecture)}/#{repository}/" %>"><%= h(nb_benches) %></a></td>
+                  <td><a href="<%= "#{mode}/#{u(architecture)}/#{repository}/" %>"><script>document.write(moment("<%= h(databases[mode].last_bench(architecture, repository).strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></a></td>
                   <% end %>
                 </tr>
                 <% end %>
               </tbody>
             </table>
-            <p>The numbers in the table above are the numbers of benches ran per configuration.</p>
+            <% end %>
           </div>
         </div>
       </div>

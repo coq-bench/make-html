@@ -32,12 +32,8 @@
           </div>
           <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li><a href="../../.."><%= h(repository.capitalize) %></a></li>
-              <li><a href="."><%= h("#{coq_version} / #{name} #{version}") %></a></li>
-              <li class="active"><a href=""><%= h(time.strftime("%F %T")) %></a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="../../../../../about.html">About</a></li>
+              <li><a href="../.."><%= h("#{mode} / #{repository}") %></a></li>
+              <li class="active"><a href=""><%= h("#{coq_version} / #{name} - #{version}") %></a></li>
             </ul>
           </div>
         </div>
@@ -45,7 +41,7 @@
       <div class="article">
         <div class="row">
           <div class="col-md-12">
-            <a href=".">« Up</a>
+            <a href="../..">« Up</a>
             <h1>
               <%= h(name) %>
               <small>
@@ -54,6 +50,9 @@
               </small>
             </h1>
             <p><em><script>document.write(moment("<%= h(time.strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script> (<%= h(time.strftime("%F %T")) %> UTC)</em><p>
+
+            <h2>Context</h2>
+            <pre><%= h(result.context) %></pre>
 
             <h2>Lint</h2>
             <dl class="dl-horizontal">
