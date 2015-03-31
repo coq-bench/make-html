@@ -54,7 +54,12 @@ class Database
 
   # The more recent bench for an architecture.
   def last_bench(architecture, repository)
-    @in_memory[architecture][repository].max_by {|_, results| results[:time]}[1][:time]
+    last = @in_memory[architecture][repository].max_by {|_, results| results[:time]}
+    if last then
+      last[1][:time]
+    else
+      nil
+    end
   end
 
   # The Coq versions tested for a given architecture and repository.

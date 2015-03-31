@@ -68,7 +68,9 @@
                   <td><%= h(ocaml) %></td>
                   <td><%= h(opam) %></td>
                   <% for repository in Database.repositories %>
-                  <td><a href="<%= "#{mode}/#{u(architecture)}/#{repository}/" %>"><script>document.write(moment("<%= h(databases[mode].last_bench(architecture, repository).strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></a></td>
+                    <% if last_bench = databases[mode].last_bench(architecture, repository) %>
+                  <td><a href="<%= "#{mode}/#{u(architecture)}/#{repository}/" %>"><script>document.write(moment("<%= h(last_bench.strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></a></td>
+                    <% end %>
                   <% end %>
                 </tr>
                 <% end %>
