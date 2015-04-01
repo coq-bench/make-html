@@ -60,8 +60,6 @@
               <dd><code><%= h(result.lint_command) %></code></dd>
               <dt>Return code</dt>
               <dd><%= h(result.lint_status) %></dd>
-              <dt>Duration</dt>
-              <dd><%= h(result.lint_duration.to_i.duration) %></dd>
               <% unless result.lint_output.empty? %>
               <dt>Output</dt>
               <dd><pre><%= h(result.lint_output) %></pre></dd>
@@ -75,8 +73,6 @@
               <dd><code><%= h(result.dry_with_coq_command) %></code></dd>
               <dt>Return code</dt>
               <dd><%= h(result.dry_with_coq_status) %></dd>
-              <dt>Duration</dt>
-              <dd><%= h(result.dry_with_coq_duration.to_i.duration) %></dd>
               <% unless result.dry_with_coq_output.empty? %>
               <dt>Output</dt>
               <dd><pre><%= h(result.dry_with_coq_output) %></pre></dd>
@@ -88,8 +84,6 @@
               <dd><code><%= h(result.dry_without_coq_command) %></code></dd>
               <dt>Return code</dt>
               <dd><%= h(result.dry_without_coq_status) %></dd>
-              <dt>Duration</dt>
-              <dd><%= h(result.dry_without_coq_duration.to_i.duration) %></dd>
               <% unless result.dry_without_coq_output.empty? %>
               <dt>Output</dt>
               <dd><pre><%= h(result.dry_without_coq_output) %></pre></dd>
@@ -146,8 +140,6 @@
               <dd><code><%= h(result.uninstall_command) %></code></dd>
               <dt>Return code</dt>
               <dd><%= h(result.uninstall_status) %></dd>
-              <dt>Duration</dt>
-              <dd><%= h(result.uninstall_duration.to_i.duration) %></dd>
               <% unless result.uninstall_output.empty? %>
               <dt>Output</dt>
               <dd><pre><%= h(result.uninstall_output) %></pre></dd>
