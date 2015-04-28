@@ -82,6 +82,20 @@ class Database
     output
   end
 
+  # The number of packages for an architecture and repository, using the minimum
+  # of number of packages for the last bench of each Coq version.
+  def number_of_packages(architecture, repository)
+    n_min = nil
+    for coq_version in coq_versions(architecture, repository) do
+      n = 0
+      for _, results in @in_memory[architecture][repository][coq_version][:results] do
+        n += results.size
+      end
+      n_min = n_min ? [n_min, n].min : n
+    end
+    n_min ? n_min : 0
+  end
+
   # The numbers of incompatibilities, errors, dependencies errors and successes,
   # in this order.
   def stats(architecture, repository, coq_version)
