@@ -33,7 +33,7 @@ class Result
     when "Success"
       @package_duration.to_i.duration
     when "NotCompatible"
-      "OK"
+      "NA"
     when "LintError", "DepsError", "Error", "UninstallError"
       "Error"
     else
