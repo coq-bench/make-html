@@ -30,18 +30,9 @@
         <div class="row">
           <div class="col-md-12">
             <h1>Coq bench</h1>
-            <em>The new new bench system for <a href="http://coq.inria.fr/">Coq</a>.</em>
-            <p>We bench the Coq packages, not Coq itself or the contribs. The compilation times are only informative.</p>
+            <p>We bench the Coq OPAM packages, not Coq itself or the contribs. The compilation times are only informative.</p>
 
-            <% for mode in [:clean, :tree] %>
-            <h2><%= h(mode.to_s.capitalize) %></h2>
-            <p>
-              <% if mode == :clean %>
-              We install all packages in a fresh environment.
-              <% else %>
-              We install as many packages as possible, and then backtrack for incompatible ones.
-              <% end %>
-            </p>
+            <h2>Results</h2>
             <table class="table table-striped text-center">
               <thead>
                 <tr>
@@ -54,7 +45,7 @@
                 </tr>
               </thead>
               <tbody>
-                <% for architecture in databases[mode].architectures %>
+                <% for architecture in databases[:clean].architectures %>
                   <% os, machine, ocaml, opam = architecture.split("-") %>
                 <tr>
                   <td><%= h(os) %></td>
@@ -62,15 +53,23 @@
                   <td><%= h(ocaml) %></td>
                   <td><%= h(opam) %></td>
                   <% for repository in Database.repositories %>
-                    <% if last_bench = databases[mode].last_bench(architecture, repository) %>
-                  <td><a href="<%= "#{mode}/#{u(architecture)}/#{repository}/" %>"><script>document.write(moment("<%= h(last_bench.strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></a></td>
+                    <% if last_bench = databases[:clean].last_bench(architecture, repository) %>
+                  <td><a href="<%= "#{:clean}/#{u(architecture)}/#{repository}/" %>"><script>document.write(moment("<%= h(last_bench.strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></a></td>
                     <% end %>
                   <% end %>
                 </tr>
                 <% end %>
               </tbody>
             </table>
-            <% end %>
+
+            <h2>Changelog</h2>
+            <h3>May 28, 2016</h3>
+            <ul>
+              <li>run the <code>opam lint</code> check</li>
+              <li>single-threaded compilation for better reproducibility of builds</li>
+              <li>shorter installation timeout (30 minutes) to anticipate the release of the contribs</li>
+              <li>a timeout is not an error anymore</li>
+            </ul>
           </div>
         </div>
       </div>

@@ -13,4 +13,4 @@ Generate the HTML files to `html/`:
 
 View the generated HTML on [localhost:8080](http://localhost:8080/):
 
-    make server
+    make serve
