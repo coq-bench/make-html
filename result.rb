@@ -34,8 +34,14 @@ class Result
       @package_duration.to_i.duration
     when "NotCompatible"
       "NA"
-    when "LintError", "DepsError", "Error", "UninstallError"
+    when "LintError"
+      "Lint"
+    when "DepsError"
+      "Deps"
+    when "Error"
       "Error"
+    when "UninstallError"
+      "Uninstall"
     else
       raise "unknown status #{@status.inspect}"
     end
