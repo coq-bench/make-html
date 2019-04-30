@@ -38,7 +38,7 @@
             <h1><%= h(repository.capitalize) %> <small><%= h(database.number_of_packages(architecture, repository)) %> packages</small></h1>
             <% os, machine, ocaml, opam = architecture.split("-") %>
             <p><em><%= h("#{os}, #{machine}, OCaml #{ocaml}, Opam #{opam}") %></em></p>
-            <p>The <em>best</em> column is the best result obtained for each package. Colors:</p>
+            <p>The <em>summary</em> column gives the worst case for each row. Colors:</p>
             <ul class="list-inline">
               <li class="bg-success">Success</li>
               <li class="bg-info">Not compatible with this Coq/OCaml version</li>
@@ -65,7 +65,7 @@
                   <% for coq_version in database.coq_versions(architecture, repository) %>
                   <td><%= h(coq_version) %></td>
                   <% end %>
-                  <td>best</td>
+                  <td>summary</td>
                 </tr>
                 <tr>
                   <td>Name</td>
@@ -83,7 +83,7 @@
                   <% end %>
                   <td>
                     <small>
-                      <% stats = database.best_stats(architecture, repository) %>
+                      <% stats = database.worst_stats(architecture, repository) %>
                       <span class="label label-success"><%= h(stats[3]) %></span>
                       <span class="label label-info"><%= h(stats[0]) %></span>
                       <span class="label label-warning"><%= h(stats[2]) %></span>
@@ -96,19 +96,19 @@
                 <% for name, results in database.packages_hash(architecture, repository).sort %>
                   <% first_row = true %>
                   <% for version, results in results.sort %>
-                    <% best = 0 %>
+                    <% worst = 0 %>
                 <tr>
                   <td><%= first_row ? h(name) : "" %></td>
                   <td><%= h(version) %></td>
                     <% for coq_version in database.coq_versions(architecture, repository) %>
                       <% if result = results[coq_version] then %>
-                        <% best = [best, result.status.to_i].max %>
+                        <% worst = [worst, result.status.to_i].min %>
                   <td class="<%= result.status.css_class %>"><a href="<%= "#{u(coq_version)}/#{u(name)}/#{u(version)}.html" %>"><%= h(result.short_message) %></a></td>
                       <% else %>
                   <td></td>
                       <% end %>
                     <% end %>
-                  <td class="<%= ["info", "danger", "warning", "success"][best] %>"><%= h(["NA", "Error", "Error", "Success"][best]) %></td>
+                  <td class="<%= ["danger", "warning", "success", "info"][worst] %>"><%= h(["Error", "Error", "Success", "NC"][worst]) %></td>
                 </tr>
                     <% first_row = false %>
                   <% end %>

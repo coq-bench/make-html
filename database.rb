@@ -108,18 +108,18 @@ class Database
     output
   end
 
-  # Like `stats`, with the best results for all coq versions.
-  def best_stats(architecture, repository)
+  # Like `stats`, with the worst results for all coq versions.
+  def worst_stats(architecture, repository)
     output = [0, 0, 0, 0]
     for _, results in packages_hash(architecture, repository) do
       for _, results in results do
-        best = 0
+        worst = 0
         for coq_version in coq_versions(architecture, repository) do
           if result = results[coq_version] then
-            best = [best, result.status.to_i].max
+            worst = [worst, result.status.to_i].max
           end
         end
-        output[best] += 1
+        output[worst] += 1
       end
     end
     output

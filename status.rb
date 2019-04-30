@@ -25,14 +25,14 @@ class Status
   # A number to classify and order a status.
   def to_i
     case @status
-    when "Success"
-      3
     when "NotCompatible"
-      0
-    when "DepsError"
+      3
+    when "Success"
       2
-    when "LintError", "Error", "UninstallError"
+    when "DepsError"
       1
+    when "LintError", "Error", "UninstallError"
+      0
     else
       raise "unknown status #{@status}"
     end
