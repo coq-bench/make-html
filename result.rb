@@ -33,7 +33,7 @@ class Result
     when "Success"
       @package_duration.to_i.duration
     when "NotCompatible"
-      "NA"
+      "NC"
     when "LintError"
       "Lint"
     when "DepsError"
@@ -55,7 +55,7 @@ class Result
     when "LintError"
       "Lint error"
     when "NotCompatible"
-      "Not compatible with this Coq"
+      "Not compatible with this Coq/OCaml version"
     when "DepsError"
       "Error with dependencies"
     when "Error"
