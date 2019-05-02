@@ -113,7 +113,7 @@ class Database
     output = [0, 0, 0, 0]
     for _, results in packages_hash(architecture, repository) do
       for _, results in results do
-        worst = 0
+        worst = 3
         for coq_version in coq_versions(architecture, repository) do
           if result = results[coq_version] then
             worst = [worst, result.status.to_i].max

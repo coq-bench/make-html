@@ -55,7 +55,7 @@ class Result
     when "LintError"
       "Lint error"
     when "NotCompatible"
-      "Not compatible with this Coq/OCaml version"
+      "Not compatible"
     when "DepsError"
       "Error with dependencies"
     when "Error"
