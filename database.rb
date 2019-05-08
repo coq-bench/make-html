@@ -116,7 +116,7 @@ class Database
         worst = 3
         for coq_version in coq_versions(architecture, repository) do
           if result = results[coq_version] then
-            worst = [worst, result.status.to_i].max
+            worst = [worst, result.status.to_i].min
           end
         end
         output[worst] += 1

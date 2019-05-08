@@ -96,7 +96,7 @@
                 <% for name, results in database.packages_hash(architecture, repository).sort %>
                   <% first_row = true %>
                   <% for version, results in results.sort %>
-                    <% worst = 0 %>
+                    <% worst = 3 %>
                 <tr>
                   <td><%= first_row ? h(name) : "" %></td>
                   <td><%= h(version) %></td>
