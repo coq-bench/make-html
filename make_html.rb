@@ -28,18 +28,12 @@ class Numeric
     size = self.to_int
     if size == 0 then
       "0 K"
+    elsif size < 1024 then
+      "1 K"
+    elsif size < 1024 * 1024 then
+      "#{(size / 1024.0).round} K"
     else
-      size = size / 1024
-      if size == 0 then
-        "1 K"
-      else
-        parts = []
-        while size != 0 do
-          parts << (size < 1000 ? size.to_s : sprintf("%03d", size % 1000))
-          size /= 1000
-        end
-        "#{parts.reverse.join(",")} K"
-      end
+      "#{(size / (1024.0 * 1024.0)).round} M"
     end
   end
 end
