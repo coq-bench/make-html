@@ -70,24 +70,25 @@
                 <tr>
                   <td>Name</td>
                   <td>Version</td>
+                  <% def pill(label, number) number.to_i != 0 ? "<span class=\"label label-#{label}\">#{number}</span>" : "" end %>
                   <% for coq_version in database.coq_versions(architecture, repository) %>
                     <% stats = database.stats(architecture, repository, coq_version) %>
                   <td>
                     <small>
-                      <span class="label label-info"><%= h(stats[3]) %></span>
-                      <span class="label label-success"><%= h(stats[2]) %></span>
-                      <span class="label label-warning"><%= h(stats[1]) %></span>
-                      <span class="label label-danger"><%= h(stats[0]) %></span>
+                      <%= pill("info", h(stats[3])) %>
+                      <%= pill("success", h(stats[2])) %>
+                      <%= pill("warning", h(stats[1])) %>
+                      <%= pill("danger", h(stats[0])) %>
                     </small>
                   </td>
                   <% end %>
                   <td>
                     <small>
                       <% stats = database.worst_stats(architecture, repository) %>
-                      <span class="label label-info"><%= h(stats[3]) %></span>
-                      <span class="label label-success"><%= h(stats[2]) %></span>
-                      <span class="label label-warning"><%= h(stats[1]) %></span>
-                      <span class="label label-danger"><%= h(stats[0]) %></span>
+                      <%= pill("info", h(stats[3])) %>
+                      <%= pill("success", h(stats[2])) %>
+                      <%= pill("warning", h(stats[1])) %>
+                      <%= pill("danger", h(stats[0])) %>
                     </small>
                   </td>
                 </tr>
