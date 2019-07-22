@@ -37,4 +37,18 @@ class Status
       raise "unknown status #{@status}"
     end
   end
+
+  # A unicode symbol representing the error status.
+  def unicode_error_symbol
+    case @status
+    when "DepsError"
+      "🔶"
+    when "LintError", "Error", "UninstallError"
+      "❌"
+    when "NotCompatible", "Success"
+      nil
+    else
+      raise "unknown status #{@status}"
+    end
+  end
 end
