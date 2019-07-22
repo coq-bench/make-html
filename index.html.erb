@@ -53,7 +53,7 @@
                   <td><%= h(ocaml) %></td>
                   <td><%= h(opam) %></td>
                   <% for repository in Database.repositories %>
-                    <% if last_bench = databases[:clean].last_bench(architecture, repository) %>
+                    <% if last_bench = databases[:clean].get_last_bench_by_architecture(architecture, repository) %>
                   <td><a href="<%= "#{:clean}/#{u(architecture)}/#{repository}/" %>"><script>document.write(moment("<%= h(last_bench.strftime("%F %T")) %> +0000", "YYYY-MM-DD HH:mm:ss Z").fromNow());</script></a></td>
                     <% end %>
                   <% end %>
