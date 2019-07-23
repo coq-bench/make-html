@@ -1,5 +1,6 @@
 database/
 html/
+token
 
 *.gem
 *.rbc

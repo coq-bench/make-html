@@ -14,3 +14,9 @@ Generate the HTML files to `html/`:
 View the generated HTML on [localhost:8080](http://localhost:8080/):
 
     make serve
+
+## Connect to Gitter
+To send a summary of the results of the last bench iteration to a Gitter room:
+
+    sudo gem install ruby-gitter
+    ruby push_to_gitter.rb database_path token_path room_name
