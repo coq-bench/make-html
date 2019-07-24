@@ -1,5 +1,7 @@
 # Make HTML
-Generate the website.
+> Generate the bench website https://coq-bench.github.io/.
+
+[![website screenshot](https://github.com/coq-bench/make-html/raw/master/pictures/website_screenshot.png)](https://coq-bench.github.io/)
 
 ## Usage
 Install Ruby and download the benchmarks database to `../database/`:
@@ -15,8 +17,10 @@ View the generated HTML on [localhost:8080](http://localhost:8080/):
 
     make serve
 
-## Connect to Gitter
-To send a summary of the results of the last bench iteration to a Gitter room:
+## Post on Gitter
+[![Gitter screenshot](https://github.com/coq-bench/make-html/raw/master/pictures/gitter_screenshot.png)](https://gitter.im/coq/opam-bench-reports)
+
+To send a summary of the results of the last bench iteration to a Gitter room, like in [coq/opam-bench-reports](https://gitter.im/coq/opam-bench-reports):
 
     sudo gem install ruby-gitter
     ruby push_to_gitter.rb database_path token_path room_name
