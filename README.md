@@ -3,7 +3,7 @@
 
 [![website screenshot](https://github.com/coq-bench/make-html/raw/master/pictures/website_screenshot.png)](https://coq-bench.github.io/)
 
-## Usage
+## Generate the HTML
 Install Ruby and download the benchmarks database to `../database/`:
 
     curl -L https://github.com/coq-bench/database/archive/master.tar.gz |tar -xz
