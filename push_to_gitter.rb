@@ -18,7 +18,9 @@ end
 print "Connecting to Gitter..."
 token = File.read(token_path)
 client = Gitter::Client.new(token)
-room_id = client.rooms.find {|room| room.name == room_name}.id
+room = client.rooms.find {|room| room.name == room_name}
+puts "Unable to connect find the room '#{room_name}'"; exit(1) if room.nil?
+room_id = room.id
 puts_ok
 
 print "Fetching the last bench results..."
@@ -31,14 +33,17 @@ message = "> Summary of the past #{frequency_in_hours} hours:\n"
 nb_package_versions = 0
 nb_errors = 0
 package_error_messages = {}
+black_list = [
+  "ltac2.0.3"
+]
 for bench in benches do
   for package_name, versions in bench[:results] do
     for package_version, result in versions do
       nb_package_versions += 1
+      package_full_name = "#{package_name}.#{package_version}"
       error_symbol = result.status.unicode_error_symbol
-      if error_symbol then
+      if error_symbol && !black_list.include?(package_full_name) then
         nb_errors += 1
-        package_full_name = "#{package_name}.#{package_version}"
         _, ocaml, _ = /\A(.*)-([^\-]*)-([^\-]*)\z/.match(bench[:architecture]).captures
         url = "https://coq-bench.github.io/clean/#{u(bench[:architecture])}/#{u(bench[:repository])}/#{u(bench[:coq])}/#{u(package_name)}/#{u(package_version)}.html"
         package_error_messages[package_full_name] ||= []
@@ -47,7 +52,7 @@ for bench in benches do
     end
   end
 end
-for package_full_name, error_messages in package_error_messages do
+for package_full_name, error_messages in package_error_messages.sort do
   message << "> * #{package_full_name}:\n"
   message << error_messages.sort.join("\n")
   message << "\n"
