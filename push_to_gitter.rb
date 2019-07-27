@@ -5,11 +5,11 @@ require_relative 'database'
 include(ERB::Util)
 
 unless ARGV.size == 4 then
-  puts "Usage: ruby push_to_gitter.rb database_path token_path room_name frequency_in_hours"
+  puts "Usage: ruby push_to_gitter.rb database_path token_path room_name nb_hours"
   exit(1)
 end
 
-database_path, token_path, room_name, frequency_in_hours = ARGV[0], ARGV[1], ARGV[2], ARGV[3].to_i
+database_path, token_path, room_name, nb_hours = ARGV[0], ARGV[1], ARGV[2], ARGV[3].to_i
 
 def puts_ok
   puts " \e[1m\e[32mOK\e[0m"
@@ -25,11 +25,11 @@ puts_ok
 
 print "Fetching the last bench results..."
 database = Database.new("#{database_path}/clean")
-benches = database.get_benches_of_the_past_hours(frequency_in_hours)
+benches = database.get_benches_of_the_past_hours(nb_hours)
 puts_ok
 
 print "Sending a message with a summary of the last bench..."
-message = "> Summary of the past #{frequency_in_hours} hours:\n"
+message = "> Summary of the past #{nb_hours} hours:\n"
 nb_package_versions = 0
 nb_errors = 0
 package_error_messages = {}
