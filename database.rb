@@ -62,26 +62,26 @@ class Database
     end
   end
 
-  # The more recent bench.
-  def get_last_bench
-    last_bench = nil
+  # This list of bench results which finished during the last nb_hours.
+  def get_benches_of_the_past_hours(nb_hours)
+    benches = []
 
     for architecture, architecture_benches in @in_memory do
       for repository, repository_benches in architecture_benches do
         for coq, bench in repository_benches do
-          if last_bench.nil? || bench[:time] > last_bench[:bench][:time] then
-            last_bench = {
+          if Time.now - bench[:time] < 3600 * nb_hours then
+            benches << {
               architecture: architecture,
-              bench: bench,
               coq: coq,
-              repository: repository
+              repository: repository,
+              results: bench[:results]
             }
           end
         end
       end
     end
 
-    last_bench
+    benches
   end
 
   # The Coq versions tested for a given architecture and repository.
