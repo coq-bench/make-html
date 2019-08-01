@@ -1,6 +1,6 @@
 database/
 html/
-token
+gitter-token
 
 *.gem
 *.rbc
