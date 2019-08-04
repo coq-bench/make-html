@@ -45,6 +45,9 @@ class Database
         end
       end
     end
+
+    # A cache for the comparison of Coq versions.
+    @coq_versions_comparison = {}
   end
 
   # The architectures present in the database.
@@ -150,13 +153,17 @@ private
   # Compare two version numbers using the dpkg algorithm (the Debian package
   # manager). Needs a Debian-based distribution.
   def compare_versions(x, y)
-    if x == y then
-      0
-    # We use `dpkg` to compare two versions numbers according to the OPAM policy.
-    elsif system("dpkg --compare-versions #{x} lt #{y} 2>/dev/null")
-      -1
-    else
-      +1
+    @coq_versions_comparison[x] ||= {}
+    @coq_versions_comparison[x][y] ||= begin
+      if x == y then
+        0
+      # We use `dpkg` to compare two versions numbers according to the OPAM policy.
+      elsif system("dpkg --compare-versions #{x} lt #{y} 2>/dev/null")
+        -1
+      else
+        +1
+      end
     end
+    @coq_versions_comparison[x][y]
   end
 end
