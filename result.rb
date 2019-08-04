@@ -12,7 +12,7 @@ class Result
     :missing_removes, :mistake_removes, :install_sizes
 
   def initialize(*arguments)
-    status, @context,
+    name, version, status, @context,
       @lint_command, @lint_status, @lint_duration, @lint_output,
       @dry_with_coq_command, @dry_with_coq_status, @dry_with_coq_duration, @dry_with_coq_output,
       @dry_without_coq_command, @dry_without_coq_status, @dry_without_coq_duration, @dry_without_coq_output,
@@ -21,7 +21,7 @@ class Result
       @uninstall_command, @uninstall_status, @uninstall_duration, @uninstall_output,
       @missing_removes, @mistake_removes, @install_sizes =
       arguments
-    @status = Status.new(status)
+    @status = Status.new(name, version, status, @dry_without_coq_output, @deps_output, @package_output)
     @missing_removes = @missing_removes.split("\n")
     @mistake_removes = @mistake_removes.split("\n")
     @install_sizes &&= @install_sizes.split("\n").each_slice(2).to_a
@@ -34,6 +34,8 @@ class Result
       @package_duration.to_i.duration
     when "NotCompatible"
       "NC"
+    when "BlackList"
+      "BL"
     when "LintError"
       "Lint"
     when "DepsError"
@@ -52,10 +54,12 @@ class Result
     case @status.status
     when "Success"
       @package_duration.to_i.duration
-    when "LintError"
-      "Lint error"
     when "NotCompatible"
       "Not compatible"
+    when "BlackList"
+      "Black list"
+    when "LintError"
+      "Lint error"
     when "DepsError"
       "Error with dependencies"
     when "Error"

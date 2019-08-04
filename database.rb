@@ -38,7 +38,7 @@ class Database
               name = row[0][4..-1]
               @in_memory[architecture][repository][coq_version][:results][name] ||= {}
               version = row[1]
-              result = Result.new(*row[2..-1])
+              result = Result.new(*row[0..-1])
               @in_memory[architecture][repository][coq_version][:results][name][version] = result
             end
           end
@@ -118,10 +118,9 @@ class Database
     n_min ? n_min : 0
   end
 
-  # The numbers of incompatibilities, errors, dependencies errors and successes,
-  # in this order.
+  # Statistics about a package.
   def stats(architecture, repository, coq_version)
-    output = [0, 0, 0, 0]
+    output = [0, 0, 0, 0, 0]
     for name, results in @in_memory[architecture][repository][coq_version][:results] do
       for version, result in results do
         output[result.status.to_i] += 1
@@ -132,10 +131,10 @@ class Database
 
   # Like `stats`, with the worst results for all coq versions.
   def worst_stats(architecture, repository)
-    output = [0, 0, 0, 0]
+    output = [0, 0, 0, 0, 0]
     for _, results in packages_hash(architecture, repository) do
       for _, results in results do
-        worst = 3
+        worst = output.size - 1
         for coq_version in coq_versions(architecture, repository) do
           if result = results[coq_version] then
             worst = [worst, result.status.to_i].min

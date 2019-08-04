@@ -48,7 +48,13 @@ database_path, install_path = ARGV[0], ARGV[1]
 FileUtils.mkdir_p(install_path)
 
 # Copy the CSS and JavaScript.
-FileUtils.cp(["bootstrap.min.css", "bootstrap.min.js", "favicon.png", "moment.min.js"], install_path)
+FileUtils.cp([
+  "bootstrap-custom.css",
+  "bootstrap.min.css",
+  "bootstrap.min.js",
+  "favicon.png",
+  "moment.min.js"
+], install_path)
 
 # Prepare the databases.
 databases = {

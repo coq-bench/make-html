@@ -7,6 +7,7 @@
     <link rel="shortcut icon" type="image/png" href="../../../favicon.png" />
 
     <link href="../../../bootstrap.min.css" rel="stylesheet">
+    <link href="../../../bootstrap-custom.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="../../../moment.min.js"></script>
 
@@ -75,7 +76,7 @@
                     <% stats = database.stats(architecture, repository, coq_version) %>
                   <td>
                     <small>
-                      <%= pill("info", h(stats[3])) %>
+                      <%= pill("info", h(stats[4])) %>
                       <%= pill("success", h(stats[2])) %>
                       <%= pill("warning", h(stats[1])) %>
                       <%= pill("danger", h(stats[0])) %>
@@ -85,7 +86,7 @@
                   <td>
                     <small>
                       <% stats = database.worst_stats(architecture, repository) %>
-                      <%= pill("info", h(stats[3])) %>
+                      <%= pill("info", h(stats[4])) %>
                       <%= pill("success", h(stats[2])) %>
                       <%= pill("warning", h(stats[1])) %>
                       <%= pill("danger", h(stats[0])) %>
@@ -97,7 +98,7 @@
                 <% for name, results in database.packages_hash(architecture, repository).sort %>
                   <% first_row = true %>
                   <% for version, results in results.sort %>
-                    <% worst = 3 %>
+                    <% worst = 4 %>
                 <tr>
                   <td><%= first_row ? h(name) : "" %></td>
                   <td><%= h(version) %></td>
@@ -109,7 +110,7 @@
                   <td></td>
                       <% end %>
                     <% end %>
-                  <td class="<%= ["danger", "warning", "success", "info"][worst] %>"><%= h(["Error", "Error", "Success", "NC"][worst]) %></td>
+                  <td class="<%= ["danger", "warning", "success", "default", "info"][worst] %>"><%= h(["Error", "Error", "Success", "BL", "NC"][worst]) %></td>
                 </tr>
                     <% first_row = false %>
                   <% end %>
