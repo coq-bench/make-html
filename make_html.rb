@@ -62,15 +62,20 @@ databases = {
   tree: Database.new("#{database_path}/tree")}
 
 # Number of generated HTML files.
-nb_generated = 0
+$nb_generated = 0
+
+def write_in_file(file_name, renderer)
+  content = renderer.result().gsub(/\n\s*\n/, "\n")
+  File.open(file_name, "w") do |file|
+    file << content
+  end
+  puts file_name
+  $nb_generated += 1
+end
 
 # Generate the index.
 renderer = ERB.new(File.read("index.html.erb", encoding: "binary"))
-File.open("#{install_path}/index.html", "w") do |file|
-  file << renderer.result().gsub(/\n\s*\n/, "\n")
-end
-puts "#{install_path}/index.html"
-nb_generated += 1
+write_in_file("#{install_path}/index.html", renderer)
 
 for mode in [:clean, :tree] do
   database = databases[mode]
@@ -81,12 +86,7 @@ for mode in [:clean, :tree] do
     for repository in Database.repositories do
       folder_name = "#{install_path}/#{mode}/#{architecture}/#{repository}"
       FileUtils.mkdir_p(folder_name)
-      file_name = "#{folder_name}/index.html"
-      File.open(file_name, "w") do |file|
-        file << renderer.result().gsub(/\n\s*\n/, "\n")
-      end
-      puts file_name
-      nb_generated += 1
+      write_in_file("#{folder_name}/index.html", renderer)
     end
   end
 
@@ -101,12 +101,7 @@ for mode in [:clean, :tree] do
             folder_name = "#{install_path}/#{mode}/#{architecture}/#{repository}/#{coq_version}/#{name}"
             FileUtils.mkdir_p(folder_name)
             renderer = ERB.new(File.read("logs.html.erb", encoding: "binary"))
-            file_name = "#{folder_name}/#{version}.html"
-            File.open(file_name, "w") do |file|
-              file << renderer.result().gsub(/\n\s*\n/, "\n")
-            end
-            puts file_name
-            nb_generated += 1
+            write_in_file("#{folder_name}/#{version}.html", renderer)
           end
         end
       end
@@ -114,4 +109,4 @@ for mode in [:clean, :tree] do
   end
 end
 
-puts "#{nb_generated} generated HTML files."
+puts "#{$nb_generated} generated or updated HTML files."
