@@ -1,6 +1,6 @@
 # encoding: utf-8
 # The status of a bench.
-require_relative 'black-list'
+require_relative 'black_list'
 
 class Status
   attr_reader :status
