@@ -66,11 +66,13 @@ $nb_generated = 0
 
 def write_in_file(file_name, renderer)
   content = renderer.result().gsub(/\n\s*\n/, "\n")
-  File.open(file_name, "w") do |file|
-    file << content
+  unless File.exists?(file_name) && File.read(file_name, encoding: "binary") == content then
+    File.open(file_name, "w") do |file|
+      file << content
+    end
+    puts file_name
+    $nb_generated += 1
   end
-  puts file_name
-  $nb_generated += 1
 end
 
 # Generate the index.
