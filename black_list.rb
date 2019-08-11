@@ -1,4 +1,6 @@
-# A list of packages with errors which we chose to ignore. One reason could be Makefile instability.
+# A list of packages with errors which we chose to ignore (for now). It
+# contains an exact package name together with a string which should be
+# included in the error message.
 
 BlackList = [
   ["coq-bdds.8.5.0", "Error: Could not find the .cmi file for interface parser.mli."],
