@@ -8,7 +8,7 @@ class Status
   def initialize(name, version, status, dry_without_coq_output, deps_output, package_output)
     black_listed = BlackList.any? do |black_list_item|
       package_full_name, content = black_list_item
-      if package_full_name = "#{name}.#{version}" then
+      if package_full_name == "#{name}.#{version}" then
         [dry_without_coq_output, deps_output, package_output].any? do |output|
           output.include?(content)
         end
