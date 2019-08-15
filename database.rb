@@ -66,20 +66,18 @@ class Database
   end
 
   # This list of bench results which finished during the last nb_hours.
-  def get_benches_of_the_past_hours(nb_hours)
+  def get_benches_of_the_past_hours(nb_hours, repository)
     benches = []
 
     for architecture, architecture_benches in @in_memory do
-      for repository, repository_benches in architecture_benches do
-        for coq, bench in repository_benches do
-          if Time.now - bench[:time] < 3600 * nb_hours then
-            benches << {
-              architecture: architecture,
-              coq: coq,
-              repository: repository,
-              results: bench[:results]
-            }
-          end
+      for coq, bench in architecture_benches[repository] do
+        if Time.now - bench[:time] < 3600 * nb_hours then
+          benches << {
+            architecture: architecture,
+            coq: coq,
+            repository: repository,
+            results: bench[:results]
+          }
         end
       end
     end
