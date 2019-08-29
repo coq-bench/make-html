@@ -4,16 +4,7 @@
 # Most of errors randomly occur durring parallel builds.
 
 BlackList = [
-  ["coq-bdds.8.5.0", "Error: Could not find the .cmi file for interface parser.mli."],
-  ["coq-bdds.8.7.0", "Error: Could not find the .cmi file for interface parser.mli."],
-  ["coq-bdds.8.8.0", "Error: Could not find the .cmi file for interface parser.mli."],
-  ["coq-bignums.8.6.0", "Error: Corrupted compiled interface"],
-  ["coq-bignums.8.7.0", "Error: Unable to locate library NMake_gen."],
   ["coq-compcert.3.3.0", "Error: Corrupted compiled interface"],
-  ["coq-coq2html.1.0", "Error: Unbound module Resources"],
-  ["coq-coq2html.1.1", "Error: Unbound module Resources"],
-  ["coq-cybele.1.3.0", "make inconsistent assumptions over interface CybeleConstants"],
-  ["coq-cybele.1.3.0", "Error: Corrupted compiled interface"],
   ["coq-hammer.1.0.8+8.7", "Error: Corrupted compiled interface"],
   ["coq-hammer.1.0.8+8.7", "make inconsistent assumptions over interface Hhlib"],
   ["coq-hammer.1.1.1+8.9", "Error: Corrupted compiled interface"],
