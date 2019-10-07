@@ -5,5 +5,5 @@
 BlackList = [
   ["coq-compcert.3.1.0", "Error: Corrupted compiled interface"],
   ["coq-compcert.3.3.0", "Error: Corrupted compiled interface"],
-  ["coq-ltac2.0.3", "coq-ltac2 -> coq >= 8.10"]
+  ["coq-ltac2.0.3", "While removing coq"]
 ]
