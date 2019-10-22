@@ -147,7 +147,6 @@ class Database
     output
   end
 
-private
   # Compare two version numbers using the dpkg algorithm (the Debian package
   # manager). Needs a Debian-based distribution.
   def compare_versions(x, y)

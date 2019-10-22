@@ -97,13 +97,14 @@
               <tbody>
                 <% for name, results in database.packages_hash(architecture, repository).sort %>
                   <% first_row = true %>
-                  <% for version, results in results.sort %>
+                  <% for version in results.keys.sort {|x, y| database.compare_versions(x, y)} %>
+                    <% current_results = results[version] %>
                     <% worst = 4 %>
                 <tr>
                   <td><%= first_row ? h(name) : "" %></td>
                   <td><%= h(version) %></td>
                     <% for coq_version in database.coq_versions(architecture, repository) %>
-                      <% if result = results[coq_version] then %>
+                      <% if result = current_results[coq_version] then %>
                         <% worst = [worst, result.status.to_i].min %>
                   <td class="<%= result.status.css_class %>"><a href="<%= "#{u(coq_version)}/#{u(name)}/#{u(version)}.html" %>"><%= h(result.short_message) %></a></td>
                       <% else %>
