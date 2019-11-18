@@ -5,5 +5,6 @@
 BlackList = [
   ["coq-compcert.3.1.0", "Error: Corrupted compiled interface"], # flaky Makefile
   ["coq-compcert.3.3.0", "Error: Corrupted compiled interface"], # flaky Makefile
-  ["coq-compcert.3.6", "Error: Corrupted compiled interface"] # flaky Makefile
+  ["coq-compcert.3.6", "Error: Corrupted compiled interface"], # flaky Makefile
+  ["coq-stalmarck.8.5.0", "Error: Could not find the .cmi file for interface stal.mli."] # flaky Makefile
 ]
