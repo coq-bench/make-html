@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'erb'
 require 'gitter'
 require_relative 'database'
@@ -59,6 +60,15 @@ for package_full_name, error_messages in package_error_messages.sort do
 end
 message << ">\n"
 message << "> #{nb_package_versions} package installations, #{nb_errors} error#{nb_errors != 1 ? "s" : ""}, #{"%.2f" % (nb_package_versions != 0 ? 100 * (nb_errors.to_f / nb_package_versions.to_f) : 0)}% errors#{nb_errors == 0 ? " ✅" : ""}\n"
-client.send_message(message, room_id)
+
+max_message_lines = 10
+next_message_lines = message.split("\n")
+while next_message_lines.size != 0 do
+  current_message_lines = next_message_lines[0..max_message_lines - 1]
+  next_message_lines = next_message_lines[max_message_lines..-1] || []
+  message_stub = current_message_lines.join("\n")
+  client.send_message(message_stub, room_id)
+end
+
 puts_ok
 puts message
