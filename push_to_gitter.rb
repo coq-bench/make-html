@@ -16,23 +16,11 @@ def puts_ok
   puts " \e[1m\e[32mOK\e[0m"
 end
 
-print "Connecting to Gitter..."
-token = File.read(token_path)
-client = Gitter::Client.new(token)
-room = client.rooms.find {|room| room.name == room_name}
-if room.nil?
-  puts "Unable to connect find the room '#{room_name}'"
-  exit(1)
-end
-room_id = room.id
-puts_ok
-
 print "Fetching the last bench results..."
 database = Database.new("#{database_path}/clean")
 benches = database.get_benches_of_the_past_hours(nb_hours, "released")
 puts_ok
 
-print "Sending a message with a summary of the last bench..."
 message = "> Summary of the past #{nb_hours} hours:\n"
 nb_package_versions = 0
 nb_errors = 0
@@ -60,7 +48,20 @@ for package_full_name, error_messages in package_error_messages.sort do
 end
 message << ">\n"
 message << "> #{nb_package_versions} package installations, #{nb_errors} error#{nb_errors != 1 ? "s" : ""}, #{"%.2f" % (nb_package_versions != 0 ? 100 * (nb_errors.to_f / nb_package_versions.to_f) : 0)}% errors#{nb_errors == 0 ? " ✅" : ""}\n"
+puts message
 
+print "Connecting to Gitter..."
+token = File.read(token_path)
+client = Gitter::Client.new(token)
+room = client.rooms.find {|room| room.name == room_name}
+if room.nil?
+  puts "Unable to connect find the room '#{room_name}'"
+  exit(1)
+end
+room_id = room.id
+puts_ok
+
+print "Sending a message with a summary of the last bench..."
 max_message_lines = 10
 next_message_lines = message.split("\n")
 while next_message_lines.size != 0 do
@@ -69,6 +70,4 @@ while next_message_lines.size != 0 do
   message_stub = current_message_lines.join("\n")
   client.send_message(message_stub, room_id)
 end
-
 puts_ok
-puts message
