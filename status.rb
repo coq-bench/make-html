@@ -16,7 +16,11 @@ class Status
         false
       end
     end
-    @status = black_listed ? "BlackList" : status
+    download_error_message = "[ERROR] The sources of the following couldn't be obtained, aborting:"
+    with_download_error = [deps_output, package_output].any? do |output|
+      output.include?(download_error_message)
+    end
+    @status = black_listed || with_download_error ? "BlackList" : status
   end
 
   # The color to display.
