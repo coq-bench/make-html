@@ -12,5 +12,6 @@ BlackList = [
   ["coq-compcert.3.5", "Error: Corrupted compiled interface"], # flaky Makefile
   ["coq-metacoq-erasure.1.0~alpha+8.8", "make inconsistent assumptions over interface Quoter"],
   ["coq-stalmarck.8.5.0", "Error: Could not find the .cmi file for interface stal.mli."], # flaky Makefile
+  ["coq-stalmarck.8.12.0", "coq-stalmarck -> coq >= 8.12"], # flaky Makefile
   ["coq-vst.2.2", "Error: Corrupted compiled interface"]
 ]
