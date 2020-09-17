@@ -25,7 +25,7 @@ database = Database.new("#{database_path}/clean")
 benches = database.get_benches_of_the_past_hours(nb_hours, "released")
 puts_ok
 
-message = "> Summary of the past #{nb_hours} hours:\n"
+message = "> Summary of the past #{nb_hours} hours:\n\n"
 nb_package_versions = 0
 nb_errors = 0
 package_error_messages = {}
