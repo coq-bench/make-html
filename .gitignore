@@ -1,6 +1,7 @@
 database/
 html/
 gitter-token
+zulip-token
 
 *.gem
 *.rbc
