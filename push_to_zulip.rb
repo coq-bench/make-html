@@ -55,7 +55,7 @@ message << "> #{nb_package_versions} package installations, #{nb_errors} error#{
 puts message
 
 print "Sending a message with a summary of the last bench..."
-max_message_lines = 10
+max_message_lines = 20
 next_message_lines = message.split("\n")
 token = File.read(token_path)
 while next_message_lines.size != 0 do
