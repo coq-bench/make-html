@@ -51,7 +51,7 @@ for package_full_name, error_messages in package_error_messages.sort do
   message << "\n"
 end
 message << ">\n"
-message << "> #{nb_package_versions} package installations, #{nb_errors} error#{nb_errors != 1 ? "s" : ""}, #{"%.2f" % (nb_package_versions != 0 ? 100 * (nb_errors.to_f / nb_package_versions.to_f) : 0)}% errors#{nb_errors == 0 ? " ✅" : ""}\n"
+message << "> #{nb_package_versions} attempted package installations (including incompatible packages), #{nb_errors} error#{nb_errors != 1 ? "s" : ""}, #{"%.2f" % (nb_package_versions != 0 ? 100 * (nb_errors.to_f / nb_package_versions.to_f) : 0)}% errors#{nb_errors == 0 ? " ✅" : ""}\n"
 puts message
 
 print "Sending a message with a summary of the last bench..."
