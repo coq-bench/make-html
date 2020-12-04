@@ -6,6 +6,7 @@ BlackList = [
   ["coq-compcert.2.5.0", "Error: Corrupted compiled interface"],
   ["coq-compcert.2.7.1", "Error: Corrupted compiled interface"],
   ["coq-compcert.3.0.0", "Error: Corrupted compiled interface"],
+  ["coq-compcert.3.0.1", "Error: Corrupted compiled interface"],
   ["coq-compcert.3.1.0", "Error: Corrupted compiled interface"],
   ["coq-compcert.3.2.0", "Error: Corrupted compiled interface"],
   ["coq-compcert.3.3.0", "Error: Corrupted compiled interface"],
