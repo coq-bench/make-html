@@ -16,11 +16,17 @@ class Status
         false
       end
     end
+    dependencies_resolution_timeout_message = "[ERROR] Sorry, resolution of the request timed out."
+    with_dependencies_resolution_timeout =
+      dry_without_coq_output.include?(dependencies_resolution_timeout_message)
     download_error_message = "[ERROR] The sources of the following couldn't be obtained, aborting:"
     with_download_error = [deps_output, package_output].any? do |output|
       output.include?(download_error_message)
     end
-    @status = black_listed || with_download_error ? "BlackList" : status
+    @status =
+      black_listed || with_dependencies_resolution_timeout || with_download_error ?
+        "BlackList" :
+        status
   end
 
   # The color to display.
