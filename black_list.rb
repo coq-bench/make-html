@@ -3,6 +3,8 @@
 # included in the error message. The errors are mostly due to flaky Makefiles.
 
 BlackList = [
+  ["coq-chick-blog.1.0.0", "[ERROR] Sorry, resolution of the request timed out."],
+  ["coq-chick-blog.1.0.1", "[ERROR] Sorry, resolution of the request timed out."],
   ["coq-compcert.2.5.0", "Error: Corrupted compiled interface"],
   ["coq-compcert.2.7.1", "Error: Corrupted compiled interface"],
   ["coq-compcert.3.0.0", "Error: Corrupted compiled interface"],
