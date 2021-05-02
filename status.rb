@@ -23,8 +23,10 @@ class Status
     with_download_error = [deps_output, package_output].any? do |output|
       output.include?(download_error_message)
     end
+    zarith_reinstall_error_message = "ocamlfind: Package zarith is already installed"
+    with_zarith_reinstall_error = deps_output.include?(zarith_reinstall_error_message)
     @status =
-      black_listed || with_dependencies_resolution_timeout || with_download_error ?
+      black_listed || with_dependencies_resolution_timeout || with_download_error || with_zarith_reinstall_error ?
         "BlackList" :
         status
   end
