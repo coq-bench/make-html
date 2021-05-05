@@ -14,6 +14,7 @@ BlackList = [
   ["coq-compcert.3.3.0", "Error: Corrupted compiled interface"],
   ["coq-compcert.3.4", "Error: Corrupted compiled interface"],
   ["coq-compcert.3.5", "Error: Corrupted compiled interface"],
+  ["coq-hardware.8.5.0", "make inconsistent assumptions over interface Comp"],
   ["coq-metacoq-erasure.1.0~alpha+8.8", "make inconsistent assumptions over interface Quoter"],
   ["coq-metacoq-pcuic.1.0~alpha1+8.9", "make inconsistent assumptions over interface Quoter"],
   ["coq-stalmarck.8.5.0", "Error: Could not find the .cmi file for interface stal.mli."],
