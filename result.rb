@@ -53,19 +53,19 @@ class Result
   def long_message
     case @status.status
     when "Success"
-      @package_duration.to_i.duration
+      @package_duration.to_i.duration + " 🏆"
     when "NotCompatible"
-      "Not compatible"
+      "Not compatible 👼"
     when "BlackList"
-      "Black list"
+      "Black list 🏴‍☠️"
     when "LintError"
-      "Lint error"
+      "Lint error 💥"
     when "DepsError"
-      "Error with dependencies"
+      "Error with dependencies 🚒"
     when "Error"
-      "Error"
+      "Error 🔥"
     when "UninstallError"
-      "Uninstallation error"
+      "Uninstallation error 🌪️"
     else
       raise "unknown status #{@status}"
     end
