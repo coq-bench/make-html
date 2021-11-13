@@ -40,7 +40,7 @@ for bench in benches do
         _, ocaml, _ = /\A(.*)-([^\-]*)-([^\-]*)\z/.match(bench[:architecture]).captures
         url = "https://coq-bench.github.io/clean/#{u(bench[:architecture])}/#{u(bench[:repository])}/#{u(bench[:coq])}/#{u(package_name)}/#{u(package_version)}.html"
         package_error_messages[package_full_name] ||= []
-        package_error_messages[package_full_name] << ">   * [Coq #{bench[:coq]}, OCaml #{ocaml}](#{url}) #{error_symbol} (#{result.long_message.downcase})"
+        package_error_messages[package_full_name] << "> * [Coq #{bench[:coq]}, OCaml #{ocaml}](#{url}) #{error_symbol} (#{result.long_message.downcase})"
       end
     end
   end
