@@ -8,6 +8,8 @@ class Numeric
   # Pretty-print a duration in seconds.
   def duration
     secs  = self.to_int
+    # Round the duration in minutes, to reduce the size of the diff
+    secs  = ((secs / 60.0).ceil * 60).round
     mins  = secs / 60
     hours = mins / 60
     days  = hours / 24
